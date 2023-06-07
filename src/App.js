@@ -1,24 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import {createBrowserRouter, RouterProvider } from 'react-router-dom'
+import LandingContainer from './containers/LandingContainer';
+import GameContainer from './containers/GameContainer';
+import GridComponent from'./components/GridComponent';
 
 function App() {
+
+  const router = createBrowserRouter([
+    {
+      path:"/",
+      element: (
+        <LandingContainer/>
+      )
+    }, 
+    {
+      path:"/game",
+      element: (
+        <GameContainer/>
+      )
+    }
+  ])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <h1> Hi </h1>
+    <RouterProvider router={router}/>
+    </>
   );
 }
 
