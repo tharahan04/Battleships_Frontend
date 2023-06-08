@@ -1,6 +1,21 @@
+import { useNavigate } from "react-router";
+
 const LandingContainer = () => {
+
+    const navigate = useNavigate()
+
+    const handleClick = (event) =>{
+        if (event.target.value === "single player"){
+            navigate("/game");
+        }
+    }
+
     return ( 
-    <h2> hello from Landing Container </h2>
+        <>
+            <h1>BATTLESHIPS</h1>
+            <button type="submit" onClick={handleClick} value="single player">SINGLE PLAYER</button>
+            <button type="submit" onClick={handleClick} value="multiplayer">MULTIPLAYER</button>
+        </>
      );
 }
  
