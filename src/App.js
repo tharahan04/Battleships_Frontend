@@ -7,6 +7,14 @@ import { useState, useEffect } from 'react';
 
 function App() {
 
+  const [game, setGame] = useState({}); 
+  const [gridPlayerOne, setGridPlayerOne] = useState([]);
+  const [gridPlayerTwo, setGridPlayerTwo] = useState([]);
+  const [cellsGridPlayerOne, setCellsGridPlayerOne] = useState([]);
+  const [cellsGridPlayerTwo, setCellsGridPlayerTwo] = useState([]);
+  const [shipsPlayerOne, setShipsPlayerOne] = useState([]);
+  const [shipsPlayerTwo, setShipsPlayerTwo] = useState([]);
+
   const router = createBrowserRouter([
     {
       path:"/",
@@ -17,26 +25,17 @@ function App() {
     {
       path:"/game",
       element: (
-        <GameContainer/>
+        <GameContainer 
+        gridPlayerOne={gridPlayerOne}
+        gridPlayerTwo={gridPlayerTwo}
+        cellsGridPlayerOne={cellsGridPlayerOne}
+        cellsGridPlayerTwo={cellsGridPlayerTwo}
+        shipsPlayerOne={shipsPlayerOne}
+        shipsPlayerTwo={shipsPlayerTwo}
+        />
       )
     }
   ])
-
-  const [game, setGame] = useState({}); 
-  const [gridPlayerOne, setGridPlayerOne] = useState([]);
-  const [gridPlayerTwo, setGridPlayerTwo] = useState([]);
-  const [cellsGridPlayerOne, setCellsGridPlayerOne] = useState([]);
-  const [cellsGridPlayerTwo, setCellsGridPlayerTwo] = useState([]);
-
-  // const fetchGame = async () =>{
-  //   const response = await fetch("http://localhost:8080/games");
-  //   const data = await response.json();
-  //   setGame(data);
-  //   let gridPlayerOne;
-  //   data.grids[0].id %2 === 0 ? gridPlayerOne = data.grids[1] : gridPlayerOne = data.grids[0];
-  //   setGrid(gridPlayerOne);
-  // }
-  
 
   useEffect(() => {
     const fetchGame = async () =>{
@@ -55,23 +54,9 @@ function App() {
     fetchGame()
   }, [])
 
-  // let gridPlayerOne;
-  // game.grids[0].id %2 === 0 ? gridPlayerOne = game.grids[1] : gridPlayerOne = game.grids[0];
-  // setGrid(gridPlayerOne);
-
-  // useEffect(() => {
-  //   console.log("hi");
-  // }, [game])
-
-  // useEffect(() => {
-  //   let gridPlayerOne;
-  //   game.grids[0].id %2 === 0 ? gridPlayerOne = game.grids[1] : gridPlayerOne = game.grids[0];
-  //   setGrid(gridPlayerOne);
-  // }, [game])
-
   return (
     <>
-    <h1> Hi </h1>
+    <h1><a href="/">BATTLESHIPS</a></h1>
     <RouterProvider router={router}/>
     </>
   );

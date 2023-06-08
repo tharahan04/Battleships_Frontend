@@ -12,7 +12,6 @@ const LandingContainer = () => {
 
     return ( 
         <>
-            <h1>BATTLESHIPS</h1>
             <button type="submit" onClick={handleClick} value="single player">SINGLE PLAYER</button>
             <button type="submit" onClick={handleClick} value="multiplayer">MULTIPLAYER</button>
         </>
