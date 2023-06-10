@@ -10,6 +10,9 @@
     "react-dom": "^18.2.0",
     "react-router": "^6.12.0",
     "react-scripts": "5.0.1",
+    "react-stomp": "^5.1.0",
+    "sockjs": "^0.3.24",
+    "stomp": "^0.1.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

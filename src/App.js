@@ -2,8 +2,9 @@ import './App.css';
 import {createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LandingContainer from './containers/LandingContainer';
 import GameContainer from './containers/GameContainer';
-import GridComponent from'./components/GridComponent';
 import { useState, useEffect } from 'react';
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
 
 function App() {
 
@@ -14,28 +15,10 @@ function App() {
   const [cellsGridPlayerTwo, setCellsGridPlayerTwo] = useState([]);
   const [shipsPlayerOne, setShipsPlayerOne] = useState([]);
   const [shipsPlayerTwo, setShipsPlayerTwo] = useState([]);
+  const [connectToMultiplayer, setConnectToMultiplayer] = useState(false);
 
-  const router = createBrowserRouter([
-    {
-      path:"/",
-      element: (
-        <LandingContainer/>
-      )
-    }, 
-    {
-      path:"/game",
-      element: (
-        <GameContainer 
-        gridPlayerOne={gridPlayerOne}
-        gridPlayerTwo={gridPlayerTwo}
-        cellsGridPlayerOne={cellsGridPlayerOne}
-        cellsGridPlayerTwo={cellsGridPlayerTwo}
-        shipsPlayerOne={shipsPlayerOne}
-        shipsPlayerTwo={shipsPlayerTwo}
-        />
-      )
-    }
-  ])
+  // Stores client data
+  let socketClient = null;
 
   useEffect(() => {
     const fetchGame = async () =>{
@@ -54,10 +37,52 @@ function App() {
     fetchGame()
   }, [])
 
+  // function to detail what happens when connection happens
+  const onConnected = () => {
+    // set state to true (maybe not necessary unless we need it for something)
+    setConnectToMultiplayer(true);
+    // send connection request to server
+    socketClient.subscribe('/topic/game');
+  }
+
+  // method is passed down to multiplayer button (so websocket only works when multiplayer is clicked)
+  const multiplayerEnabled = () => {
+    // websocket connection request to the endpoint in the server
+    let Sock = new SockJS('http://localhost:8080/multiplayer');
+    // creates a websocket client
+    socketClient = over(Sock);
+    // creates connection and executes call back function
+    socketClient.connect({}, onConnected);
+  }
+
+  const router = createBrowserRouter([
+    {
+      path:"/",
+      element: (
+        <LandingContainer 
+        multiplayerEnabled={multiplayerEnabled}
+        />
+      )
+    }, 
+    {
+      path:"/game",
+      element: (
+        <GameContainer 
+        gridPlayerOne={gridPlayerOne}
+        gridPlayerTwo={gridPlayerTwo}
+        cellsGridPlayerOne={cellsGridPlayerOne}
+        cellsGridPlayerTwo={cellsGridPlayerTwo}
+        shipsPlayerOne={shipsPlayerOne}
+        shipsPlayerTwo={shipsPlayerTwo}
+        />
+      )
+    }
+  ])
+
   return (
     <>
     <h1><a href="/">BATTLESHIPS</a></h1>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router}/> 
     </>
   );
 }
