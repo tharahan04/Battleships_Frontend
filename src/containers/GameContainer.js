@@ -5,7 +5,6 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
 
     const[newPlayer, setNewPlayer] = useState("");
 
-    const[allCells, setAllCells] = useState([cellsGridPlayerOne]);
     const[availableCells, setAvailableCells] = useState([]);
     const[nearbyCells, setNearbyCells] = useState([]);
 
@@ -58,10 +57,10 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
         if(lastShotShipFirstHit.length === 0){
             const random = Math.floor(Math.random() * availableCells.length);
             targetCell = availableCells[random];
-            setAvailableCells(availableCells.splice(random, 1));
             handleTurn(targetCell); //patch request we haven't written yet
             if (targetCell.ship !== null){
                 setLastShotShipFirstHit(lastShotShipFirstHit.push(targetCell));
+                setSwitchDirection(switchDirection.push(false));
             }                
         } else {
             finishOffShip(lastShotShipFirstHit.slice(-1));
@@ -80,7 +79,6 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
             getNearbyCells(cell);
             const random = Math.floor(Math.random() * nearbyCells.length);
             targetCell = nearbyCells[random];
-            setNearbyCells(nearbyCells.splice(random, 1));
             handleTurn(targetCell);
             if(targetCell.ship !== null){
                 if(targetCell.ship === cell.ship){
