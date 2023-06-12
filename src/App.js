@@ -15,27 +15,84 @@ function App() {
   const [cellsGridPlayerTwo, setCellsGridPlayerTwo] = useState([]);
   const [shipsPlayerOne, setShipsPlayerOne] = useState([]);
   const [shipsPlayerTwo, setShipsPlayerTwo] = useState([]);
+  const [singlePlayer, setSinglePlayer] = useState(false);
   const [connectToMultiplayer, setConnectToMultiplayer] = useState(false);
 
   // Stores client data
   let socketClient = null;
 
-  useEffect(() => {
-    const fetchGame = async () =>{
-      const response = await fetch("http://localhost:8080/games");
-      const data = await response.json();
-      setGame(data);
-      let gridOddNumber;
-      let gridEvenNumber;
-      data.grids[0].id %2 === 0 ? gridOddNumber = data.grids[1] : gridOddNumber = data.grids[0];
-      data.grids[0].id %2 === 0 ? gridEvenNumber = data.grids[0] : gridEvenNumber = data.grids[1];
-      setGridPlayerOne(gridOddNumber);
-      setGridPlayerTwo(gridEvenNumber);
-      setCellsGridPlayerOne(gridOddNumber.cells);
-      setCellsGridPlayerTwo(gridEvenNumber.cells);
+  // useEffect(() => {
+  //   const fetchGame = async () =>{
+  //     const response = await fetch("http://localhost:8080/games");
+  //     const data = await response.json();
+  //     setGame(data);
+  //     console.log(data);
+      // let gridOddNumber;
+      // let gridEvenNumber;
+      // data.grids[0].id %2 === 0 ? gridOddNumber = data.grids[1] : gridOddNumber = data.grids[0];
+      // data.grids[0].id %2 === 0 ? gridEvenNumber = data.grids[0] : gridEvenNumber = data.grids[1];
+      // setGridPlayerOne(gridOddNumber);
+      // setGridPlayerTwo(gridEvenNumber);
+      // setCellsGridPlayerOne(gridOddNumber.cells);
+      // setCellsGridPlayerTwo(gridEvenNumber.cells);
+  //   }
+  //   fetchGame()
+  // }, [])
+
+  const postGame = async (isSinglePlayer) =>{
+    const response = await fetch(`http://localhost:8080/games?isSinglePlayer=${isSinglePlayer}`,
+    {
+      method: "POST",
+      headers: {"Content-Type":"application/json"}
     }
-    fetchGame()
-  }, [])
+    );
+    const data = await response.json();
+    setGame(data);
+    let gridOddNumber;
+    let gridEvenNumber;
+    data.grids[0].id %2 === 0 ? gridOddNumber = data.grids[1] : gridOddNumber = data.grids[0];
+    data.grids[0].id %2 === 0 ? gridEvenNumber = data.grids[0] : gridEvenNumber = data.grids[1];
+    setGridPlayerOne(gridOddNumber);
+    setGridPlayerTwo(gridEvenNumber);
+    setCellsGridPlayerOne(gridOddNumber.cells);
+    setCellsGridPlayerTwo(gridEvenNumber.cells);
+    setSinglePlayer(data.singlePlayer);
+  }
+
+  const addGridToGame = async (grid) => {
+    const response = await fetch(`http://localhost:8080/games`,
+    {
+      method: "PATCH",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(grid)
+    }
+    );
+    const data = await response.json();
+    setGame(data);
+  }
+
+  const startGame = async () => {
+    const response = await fetch(`http://localhost:8080/games`,
+    {
+      method: "PATCH",
+      headers: {"Content-Type":"application/json"}
+    }
+    );
+    const data = await response.json();
+    setGame(data);
+  }
+
+  // useEffect(() => {
+  //   const fetchShips = async () =>{
+  //     const response = await fetch("http://localhost:8080/ships");
+  //     const data = await response.json();
+  //     const dataPlayerOne = data.filter(ship => ship.playerOne);
+  //     const dataPlayerTwo = data.filter(ship => !ship.playerOne);
+  //     setShipsPlayerOne(dataPlayerOne);
+  //     setShipsPlayerTwo(dataPlayerTwo);
+  //   }
+  //   fetchShips()
+  // }, [postGame])
 
   // function to detail what happens when connection happens
   const onConnected = () => {
@@ -61,6 +118,7 @@ function App() {
       element: (
         <LandingContainer 
         multiplayerEnabled={multiplayerEnabled}
+        postGame = {postGame}
         />
       )
     }, 
@@ -74,6 +132,10 @@ function App() {
         cellsGridPlayerTwo={cellsGridPlayerTwo}
         shipsPlayerOne={shipsPlayerOne}
         shipsPlayerTwo={shipsPlayerTwo}
+        singlePlayer={singlePlayer}
+        addGridToGame={addGridToGame}
+        startGame={startGame}
+        setGame={setGame}
         />
       )
     }
