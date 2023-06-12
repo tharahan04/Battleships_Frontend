@@ -12,6 +12,10 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
     const[lastShotShipSecondHit, setLastShotShipSecondHit] = useState([]);
     const[switchDirection, setSwitchDirection] = useState([]);
     
+    // const[hitCellsNotSunk, setHitCellsNotSunk] = useState([]);
+    // const[targetCells, setTargetCells] = useState([]);
+    // const[targetShip, setTargetShip] = useState({});
+
 
     setAvailableCells(cellsGridPlayerOne.filter(cell => cell.xCoordinate + cell.yCoordinate % 2 === 0));
 
@@ -23,34 +27,65 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
         // map ships here after 
     }
 
-    // const handleComputerTurn = () => {
+
+    // const handleComputerTurn2 = () =>{
     //     let targetCell;
-    //     if (nearbyCells.length !== 0) {
-    //         const random = Math.floor(Math.random() * nearbyCells.length);
-    //         targetCell = nearbyCells[random];
-    //         setNearbyCells(nearbyCells.splice(random, 1));
-    //         handleTurn(targetCell); //patch request we haven't written yet
-    //         if (targetCell.ship !== null){
-    //             if(targetCell.ship === lastShotShipFirstHit.slice(-1).ship){
-    //                 setLastShotShipSecondtHit(lastShotShipSecondtHit.push(targetCell));
-    //             } else {
-    //                 setLastShotShipFirstHit(lastShotShipFirstHit.push(targetCell));
-    //                 setSwitchDirection(switchDirection.push(false)); 
-    //             }
-    //         }
-    //     } else {
+    //     if (targetCells ===[]){
     //         const random = Math.floor(Math.random() * availableCells.length);
     //         targetCell = availableCells[random];
-    //         setAvailableCells(availableCells.splice(random, 1))
-    //         handleTurn(targetCell); //patch request we haven't written yet
+    //         handleTurn(targetCell);
     //         if (targetCell.ship !== null){
-    //             setLastShotShipFirstHit(lastShotShipFirstHit.push(targetCell));
-    //             setNearbyCells(getNearbyCells(targetCell));
-    //             setSwitchDirection(switchDirection.push(false)); 
+    //             setHitCellsNotSunk([targetCell]);
+    //             setTargetCells(getNearbyCells(targetCell));
+    //             setTargetShip(targetCell.ship);
     //         }
-    //     }
-    //     setAllCells(allCells.filter(cell => cell !== targetCell));
+    //     }else{
+    //         const random = Math.floor(Math.random() * targetCells.length);
+    //         targetCell = targetCells[random];
+    //         handleTurn(targetCell);
+    //         if (targetCell.ship !== null){
+    //             if(targetCell.ship !== targetShip){
+    //                 setHitCellsNotSunk([...hitCellsNotSunk, targetCell]);
+    //             } else if(!targetShip.hasSunk){
+    //                 setTargetCells(adjacentCells(targetShip))
+    //             } else {
+    //                 setHitCellsNotSunk(hitCellsNotSunk.filter(cell => cell.ship!== targetShip))
+    //                 if(hitCellsNotSunk != []){
+    //                     const random = Math.floor(Math.random() * hitCellsNotSunk.length);
+    //                     const nextCell = hitCellsNotSunk[random];
+    //                     setTargetCells(nearbyCells(nextCell));
+    //                     setTargetShip(nextCell.ship);
+    //                 }
+    //             }
+    //         } setTargetCells(targetCells.splice(random,1));
+    //     }setAvailableCells(availableCells.filter(cell => !cell.hasBeenHit));
     // }
+
+    // const adjacentCells = (ship) =>{
+    //     const listOfCells = hitCellsNotSunk.filter(cell => cell.ship === ship);
+    //     const xCoordinates = listOfCells.map(cell => cell.xCoordinate);
+    //     const yCoordinates = listOfCells.map(cell => cell.yCoordinate);
+    //     let upperCellXcoordinate;
+    //     let upperCellYcoordinate;
+    //     let lowerCellXcoordinate;
+    //     let lowerCellYcoordinate;
+    //     if (xCoordinates[0] === xCoordinates[1]){
+    //         upperCellYcoordinate = math.max(yCoordinates) +1;
+    //         upperCellXcoordinate = xCoordinates[0];
+    //         lowerCellYcoordinate = math.min(yCoordinates) -1;
+    //         lowerCellXcoordinate = xCoordinates[0];
+    //     } else{
+    //         upperCellYcoordinate = yCoordinates[0];
+    //         upperCellXcoordinate = math.max(xCoordinates) +1;
+    //         lowerCellYcoordinate = yCoordinates[0];
+    //         lowerCellXcoordinate = math.max(xCoordinates) -1;
+    //     }
+    //     const upperCell=getCellByCoordinate(upperCellXcoordinate, upperCellYcoordinate);
+    //     const lowerCell=getCellByCoordinate(lowerCellXcoordinate, lowerCellYcoordinate);
+    //     return([upperCell, lowerCell]);
+    // }
+
+
 
     const handleComputerTurn = () => {
         let targetCell;
@@ -191,14 +226,14 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
         const downCell = getCellByCoordinate(xCoordinate, yCoordinate + 1);
         const leftCell = getCellByCoordinate(xCoordinate - 1, yCoordinate);
         const rightCell = getCellByCoordinate(xCoordinate + 1, yCoordinate);
-        const newNearbyCells = [upCell, downCell, leftCell, rightCell]; // need to test what happens if any of these are null
-        const filteredNearbyCells = newNearbyCells.filter(cell => cell.hasBeenHit === false);
+        const nearbyCells = [upCell, downCell, leftCell, rightCell]; // need to test what happens if any of these are null
+        const filteredNearbyCells = nearbyCells.filter(cell => !cell.hasBeenHit);
         setNearbyCells(filteredNearbyCells);
     }
 
     const getCellByCoordinate = (xCoordinate, yCoordinate) => {
         if(xCoordinate >= 0 && xCoordinate <= 7 && yCoordinate>= 0 && yCoordinate <= 7){
-            return allCells.filter(cell => cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate)[0];
+            return availableCells.filter(cell => cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate)[0];
         }
     }
     
