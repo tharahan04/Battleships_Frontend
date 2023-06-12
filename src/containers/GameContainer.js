@@ -270,6 +270,64 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
     //     }
     // }
     
+// // move this all to the grid component
+    // const cellsCoveredByShip = (cell, ship, horizontal) => {
+    //     const size = ship.size;
+    //     const cells = [cell];
+    //     if(horizontal){
+    //     for (let i = 1; i < size; i++){
+    //         const nextCell = getCellByCoordinate(cell.xCoordinate + i, cell.yCoordinate);
+    //         cells.push(nextCell);
+    //     } 
+    // } else {
+    //     for (let i = 1; i < size; i++){
+    //         const nextCell = getCellByCoordinate(cell.xCoordinate, cell.yCoordinate + i);
+    //         cells.push(nextCell);
+    //         }
+    //     }
+    //     return cells;
+    // }
+
+    // const cellsInRange = (cells) => {
+    //     let cell;
+    //     for (cell of cells){
+    //         if(cell.xCoordinate < 0 || cell.xCoordinate > 7 || cell.yCoordinate < 0 || cell.yCoordinate > 7){
+    //             return false;
+    //         } 
+    //     }
+    //     return true;
+    // }
+
+    // const cellsEmpty = (cells) => {
+    //     let cell;
+    //     for (cell of cells){
+    //         if(cell.ship){
+    //             return false;
+    //         } 
+    //     }
+    //     return true;
+    // }
+
+    // const canPlaceShip = (ship, cell, horizontal) => {
+    //     const cells = cellsCoveredByShip(cell, ship, horizontal);
+    //     if(cellsInRange(cells) && cellsEmpty(cells)){
+    //         return true;
+    //     }
+    //    return false;
+    // }
+
+    // const placeShip = (ship, cell, horizontal) => {
+    //     const cells = cellsCoveredByShip(cell, ship, horizontal);
+    //     if (cellsInRange(cells) && cellsEmpty(cells)){
+    //         for (emptyCell in cells){
+    //             // for loop to loop through mapped cells
+    //             // find id that match id of the cell 
+    //             // s
+    //         }
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     return ( 
         <>
