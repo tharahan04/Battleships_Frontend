@@ -21,23 +21,17 @@ function App() {
   // Stores client data
   let socketClient = null;
 
-  // useEffect(() => {
-  //   const fetchGame = async () =>{
-  //     const response = await fetch("http://localhost:8080/games");
-  //     const data = await response.json();
-  //     setGame(data);
-  //     console.log(data);
-      // let gridOddNumber;
-      // let gridEvenNumber;
-      // data.grids[0].id %2 === 0 ? gridOddNumber = data.grids[1] : gridOddNumber = data.grids[0];
-      // data.grids[0].id %2 === 0 ? gridEvenNumber = data.grids[0] : gridEvenNumber = data.grids[1];
-      // setGridPlayerOne(gridOddNumber);
-      // setGridPlayerTwo(gridEvenNumber);
-      // setCellsGridPlayerOne(gridOddNumber.cells);
-      // setCellsGridPlayerTwo(gridEvenNumber.cells);
-  //   }
-  //   fetchGame()
-  // }, [])
+  useEffect(() => {
+    const fetchShips = async () =>{
+      const response = await fetch("http://localhost:8080/ships");
+      const data = await response.json();
+      const dataPlayerOne = data.filter(ship => ship.playerOne);
+      const dataPlayerTwo = data.filter(ship => !ship.playerOne);
+      setShipsPlayerOne(dataPlayerOne);
+      setShipsPlayerTwo(dataPlayerTwo);
+    }
+    fetchShips()
+  }, [])
 
   const postGame = async (isSinglePlayer) =>{
     const response = await fetch(`http://localhost:8080/games?isSinglePlayer=${isSinglePlayer}`,
@@ -82,17 +76,6 @@ function App() {
     setGame(data);
   }
 
-  // useEffect(() => {
-  //   const fetchShips = async () =>{
-  //     const response = await fetch("http://localhost:8080/ships");
-  //     const data = await response.json();
-  //     const dataPlayerOne = data.filter(ship => ship.playerOne);
-  //     const dataPlayerTwo = data.filter(ship => !ship.playerOne);
-  //     setShipsPlayerOne(dataPlayerOne);
-  //     setShipsPlayerTwo(dataPlayerTwo);
-  //   }
-  //   fetchShips()
-  // }, [postGame])
 
   // function to detail what happens when connection happens
   const onConnected = () => {
