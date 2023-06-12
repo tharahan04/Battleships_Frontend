@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
 
-const CellComponent = () => {
+const CellComponent = ({handleShipPlacement}) => {
   const [ship, setShip] = useState(null);
 
   const handleDrop = (droppedShip) => {
     setShip(droppedShip);
+    droppedShip.placed = true; //added
+    handleShipPlacement();
   };
 
   const [{ isOver }, drop] = useDrop({
