@@ -1,76 +1,23 @@
 import CellComponent from '../components/CellComponent';
 import ShipComponent from './ShipComponent';
-const GridComponent = () => {
+const GridComponent = ({cells, ships}) => {
+
+    const sortedCells = cells.sort((a,b) => a.id - b.id);
+
+    const cellComponents = sortedCells.map((cell) => <CellComponent key={cell.id} cell={cell} />);
+
+    const shipComponents = ships.map((ship) => <ShipComponent key={ship.id} ship={ship}/>)
+
     return ( 
         <>
-        <h2> Hello from grid component </h2>
-        <div className='grid'>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
-        <CellComponent/>
+        <div>
+            {shipComponents}
         </div>
-        <ShipComponent/>
+        <div className='grid'>
+            
+                {cellComponents}
+            
+        </div>
         </>
      );
 }

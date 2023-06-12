@@ -284,15 +284,13 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
             <DndProvider backend={HTML5Backend}>
                 <GridComponent 
                 gridPlayerOne={gridPlayerOne} 
-                cellsGridPlayerOne={cellsGridPlayerOne} 
-                shipsPlayerOne={shipsPlayerOne} 
-                shipsPlayerTwo={shipsPlayerTwo}
+                cells={cellsGridPlayerOne} 
+                ships={shipsPlayerOne} 
                 />
                  <GridComponent 
-                gridPlayerOne={gridPlayerOne} 
-                cellsGridPlayerOne={cellsGridPlayerOne} 
-                shipsPlayerOne={shipsPlayerOne} 
-                shipsPlayerTwo={shipsPlayerTwo}
+                gridPlayerOne={gridPlayerTwo} 
+                cells={cellsGridPlayerTwo} 
+                ships={shipsPlayerTwo}
                 />
             </DndProvider>
             </div>
