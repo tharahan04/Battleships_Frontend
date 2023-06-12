@@ -3,7 +3,7 @@ import GridComponent from "../components/GridComponent";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsGridPlayerTwo, shipsPlayerOne, shipsPlayerTwo}) => {
+const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsGridPlayerTwo, shipsPlayerOne, shipsPlayerTwo, singlePlayer, addGridToGame, startGame, setGame}) => {
 
     const[newPlayer, setNewPlayer] = useState("");
 
@@ -28,6 +28,39 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
     // const mapShips = () => {
     //     // map ships here after 
     // }
+
+    const handleStartGame = () => {
+        if (singlePlayer){
+            handleStartGameSinglePlayer();
+        }
+    }
+
+    const handleStartGameSinglePlayer = () => {
+        addGridToGame(gridPlayerOne);
+        // setGridPlayerTwo(randomGrid());
+        startGame();
+    }
+
+    const handleTurn = async (cell) => {
+        const response = await fetch(`http://localhost:8080/1?cellId=${cell.id}`, 
+        {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json"}
+        });
+        const data = await response.json();
+        const game = data.game;
+        setGame(game);
+    }
+
+    const resetGame = async () => {
+        const response = await fetch("http://localhost:8080/games",
+        {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"}
+        });
+        const data = await response.json();
+        setGame(data);
+    }
 
 
     // const handleComputerTurn2 = () =>{
@@ -244,6 +277,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
         <>
             <h2> SET UP GRID </h2>
             <h4> Drag & Drop the ships on to the map </h4>
+
             {/* {mapShips} */}
             {/* <input type="text" placeholder="Enter user name" value={newPlayer} onChange={handleNameChange} /> */}
             <div className="setupGrid">
