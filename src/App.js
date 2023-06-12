@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 
+
 function App() {
 
   const [game, setGame] = useState({}); 
