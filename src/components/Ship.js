@@ -10,11 +10,15 @@ const Ship = () => {
         })
     }))
 
-    return ( 
-        <div ref={drag}>
+    // return ( 
+    //     <div ref={drag}>
             
-            <p>Ship</p>
-        </div>
+    //         <p>Ship</p>
+    //     </div>
+    //  );
+
+    return ( 
+        <div className={`ship ${isDragging ? "dragging" : ""}`} ref={drag}> </div>
      );
 }
  

@@ -1,5 +1,9 @@
 export class Game {
-    shipPosition = [0, 0]
+
+    shipPosition = [1, 1];
+
+    
+
     observers = []
     observe(o) {
       this.observers.push(o)
@@ -8,6 +12,7 @@ export class Game {
         this.observers = this.observers.filter((t) => t !== o)
       }
     }
+
     moveShip(toX, toY) {
       this.shipPosition = [toX, toY]
       this.emitChange()
