@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "@mui/material";
 import { Box } from "@mui/system";
 
-const MultiplayerModal = ({multiplayerEnabled, postGame}) => {
+const MultiplayerModal = () => {
   const [isOpen, setIsOpen] = useState(false);
  
 
@@ -10,21 +10,14 @@ const MultiplayerModal = ({multiplayerEnabled, postGame}) => {
     setIsOpen(!isOpen);
   };
 
-  const handleNewGame = () => {
-    multiplayerEnabled();
-    postGame(true);
-    handleToggleModal();
-  }
-
-
   return (
     <div onClick={handleToggleModal}>
-        <button>MULTIPLAYER</button>
+        <button type="submit" value="multiplayer button">MULTIPLAYER</button>
       <Modal open={isOpen} onClose={handleToggleModal}>
         <Box className="modal">
           <h2>Select an Option</h2>
-          <button>New Game</button>
-          <button>Join Existing Game</button>
+          <button type="submit" value="newgame button">New Game</button>
+          <button type="submit" value="join exisiting game button" >Join Existing Game</button>
           <button className="x-button" onClick={handleToggleModal}>X</button>
         </Box>
       </Modal>
