@@ -1,5 +1,9 @@
 import { useState } from "react";
 import GridComponent from "../components/GridComponent";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Game } from "../components/Game";
+import { useMemo } from "react";
 
 const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsGridPlayerTwo, shipsPlayerOne, shipsPlayerTwo, singlePlayer, addGridToGame, startGame, setGame}) => {
 
@@ -19,13 +23,13 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
 
     // setAvailableCells(cellsGridPlayerOne.filter(cell => cell.xCoordinate + cell.yCoordinate % 2 === 0));
 
-    const handleNameChange = (event) => {
-        setNewPlayer(event.target.value);
-    }
+    // const handleNameChange = (event) => {
+    //     setNewPlayer(event.target.value);
+    // }
 
-    const mapShips = () => {
-        // map ships here after 
-    }
+    // const mapShips = () => {
+    //     // map ships here after 
+    // }
 
     const handleStartGame = () => {
         if (singlePlayer){
@@ -269,21 +273,38 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
     //         return availableCells.filter(cell => cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate)[0];
     //     }
     // }
+
     
+
+    const game = useMemo(() => new Game(), []);
 
     return ( 
         <>
             <h2> SET UP GRID </h2>
             <h4> Drag & Drop the ships on to the map </h4>
-            {mapShips}
-            <input type="text" placeholder="Enter user name" value={newPlayer} onChange={handleNameChange} />
-            <GridComponent 
-            gridPlayerOne={gridPlayerOne} 
-            cellsGridPlayerOne={cellsGridPlayerOne} 
-            shipsPlayerOne={shipsPlayerOne} 
-            shipsPlayerTwo={shipsPlayerTwo}
-            />
-            <button type="submit" onClick={handleStartGame}> START</button>
+
+            {/* {mapShips} */}
+            {/* <input type="text" placeholder="Enter user name" value={newPlayer} onChange={handleNameChange} /> */}
+            <div className="setupGrid">
+            <DndProvider backend={HTML5Backend}>
+                <GridComponent 
+                gridPlayerOne={gridPlayerOne} 
+                cells={cellsGridPlayerOne} 
+                ships={shipsPlayerOne} 
+               
+                game={game}
+                />
+                
+                 <GridComponent 
+                gridPlayerOne={gridPlayerTwo} 
+                cells={cellsGridPlayerTwo} 
+                ships={shipsPlayerTwo}
+                
+                game={game}
+                />
+            </DndProvider>
+            </div>
+            <button type="submit">START</button>
         </>
      );
 }

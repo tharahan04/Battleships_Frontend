@@ -6,8 +6,6 @@ import MultiplayerModal from "../modals/MultiplayerModal";
 const LandingContainer = ({multiplayerEnabled, postGame, numberOfUsers}) => {
 
     const navigate = useNavigate();
-
-
     const handleClick = (event) =>{
         if (event.target.value === "single player"){
             postGame(true);
@@ -19,9 +17,7 @@ const LandingContainer = ({multiplayerEnabled, postGame, numberOfUsers}) => {
     //         navigate("/game");
     //     }
     }
-
-
-    return ( 
+    return (
         <>
             <div>
                 <button type="submit" onClick={handleClick} value="single player">SINGLE PLAYER</button>
@@ -35,5 +31,4 @@ const LandingContainer = ({multiplayerEnabled, postGame, numberOfUsers}) => {
         
      );
 }
- 
 export default LandingContainer;
