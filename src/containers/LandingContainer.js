@@ -13,11 +13,11 @@ const LandingContainer = ({multiplayerEnabled, postGame}) => {
             postGame(true);
             navigate("/game");
         }
-        // if (event.target.value === "multiplayer"){
-        //     multiplayerEnabled();
-        //     postGame(true);
-        //     navigate("/game");
-        // }
+    //     if (event.target.value === "multiplayer"){
+    //         multiplayerEnabled();
+    //         postGame(true);
+    //         navigate("/game");
+    //     }
     }
 
 
