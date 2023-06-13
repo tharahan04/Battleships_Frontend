@@ -3,7 +3,7 @@ import { useNavigate, Navigate } from "react-router";
 import MultiplayerModal from "../modals/MultiplayerModal";
 
 
-const LandingContainer = ({multiplayerEnabled, postGame}) => {
+const LandingContainer = ({multiplayerEnabled, postGame, numberOfUsers}) => {
 
     const navigate = useNavigate();
 
@@ -27,8 +27,9 @@ const LandingContainer = ({multiplayerEnabled, postGame}) => {
                 <button type="submit" onClick={handleClick} value="single player">SINGLE PLAYER</button>
             </div>
         <MultiplayerModal 
-        multiplayerEnabled={multiplayerEnabled}
-        postGame={postGame}
+        multiplayerEnabled ={multiplayerEnabled}
+        postGame ={postGame}
+        numberOfUsers ={numberOfUsers}
         />
     </>
         
