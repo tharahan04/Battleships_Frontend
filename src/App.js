@@ -18,6 +18,7 @@ function App() {
   const [shipsPlayerTwo, setShipsPlayerTwo] = useState([]);
   const [singlePlayer, setSinglePlayer] = useState(false);
   const [connectToMultiplayer, setConnectToMultiplayer] = useState(false);
+  const [numberOfUsers, setNumberOfUsers] = useState(0);
 
   // Stores client data
   let socketClient = null;
@@ -101,9 +102,9 @@ function App() {
 
   const messageReceived = (payload) => {
     let payloadData = JSON.parse(payload.body)
-    console.log(payloadData)
-    let numberOfUsers = payloadData.body;
-    console.log(numberOfUsers);
+    let userNumbers = payloadData.body;
+    setNumberOfUsers(userNumbers);
+
 // if statement that looks to check if it is an integer 
 // numberOfUsers = state
 // else to handle the game logic 
@@ -127,6 +128,7 @@ function App() {
         <LandingContainer 
         multiplayerEnabled={multiplayerEnabled}
         postGame = {postGame}
+        numberOfUsers = {numberOfUsers}
         />
       )
     }, 
