@@ -1,0 +1,10 @@
+.ship {
+    width: 50px; /* Adjust the width and height as needed */
+    height: 50px;
+    background-color: blue; /* Set the background color of the ship */
+    border: 1px solid #000; /* Add a border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: move; /* Add a draggable cursor */
+  }  

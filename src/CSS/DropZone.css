@@ -1,0 +1,13 @@
+.dropzone {
+    width: 50px; /* Adjust the width and height as needed */
+    height: 50px;
+    border: 1px solid #000; /* Add a border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: pink;
+  }
+
+.highlight {
+  background-color: yellow; /* Change the background color when a ship is dragged over the cell */
+}

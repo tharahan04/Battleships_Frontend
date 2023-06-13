@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
+import "../CSS/DropZone.css";
 
 const CellComponent = ({children, game, cell}) => {
   
@@ -34,10 +35,12 @@ const CellComponent = ({children, game, cell}) => {
   )
 
   return (
+    <section className="cells">
     <div className={`cell ${isOver ? 'highlight' : ''}`} ref={drop}>
       {ship && <div className="ship">{ship.id}</div>}
       {children}
     </div>
+    </section>
   );
 };
 

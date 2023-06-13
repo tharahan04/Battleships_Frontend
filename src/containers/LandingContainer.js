@@ -1,34 +1,29 @@
-import { useEffect } from "react";
-import { useNavigate, Navigate } from "react-router";
+import { useNavigate } from "react-router";
 import MultiplayerModal from "../modals/MultiplayerModal";
+import "../CSS/LandingContainer.css";
+import battleships from "../assets/Battleship_background.jpeg";
 
-
-const LandingContainer = ({multiplayerEnabled, postGame, numberOfUsers}) => {
-
-    const navigate = useNavigate();
-    const handleClick = (event) =>{
-        if (event.target.value === "single player"){
-            postGame(true);
-            navigate("/game");
-        }
-    //     if (event.target.value === "multiplayer"){
-    //         multiplayerEnabled();
-    //         postGame(true);
-    //         navigate("/game");
-    //     }
+const LandingContainer = ({ multiplayerEnabled, postGame, numberOfUsers }) => {
+  const navigate = useNavigate();
+  const handleClick = (event) => {
+    if (event.target.value === "single player") {
+      postGame(true);
+      navigate("/game");
     }
-    return (
-        <>
-            <div>
-                <button type="submit" onClick={handleClick} value="single player">SINGLE PLAYER</button>
-            </div>
-        <MultiplayerModal 
-        multiplayerEnabled ={multiplayerEnabled}
-        postGame ={postGame}
-        numberOfUsers ={numberOfUsers}
-        />
-    </>
-        
-     );
-}
+  };
+
+  return (
+    <section className="landing_container">
+      <div className="landing_container_buttons">
+        <button type="submit" onClick={handleClick} value="single player">SINGLE PLAYER</button>
+      <MultiplayerModal
+        multiplayerEnabled={multiplayerEnabled}
+        postGame={postGame}
+        numberOfUsers={numberOfUsers}
+      />
+      </div>
+      <img src={battleships} alt="battleships"/>
+    </section>
+  );
+};
 export default LandingContainer;

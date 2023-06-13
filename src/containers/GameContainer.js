@@ -4,6 +4,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Game } from "../components/Game";
 import { useMemo } from "react";
+import "../CSS/GameContainer.css";
 
 const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsGridPlayerTwo, shipsPlayerOne, shipsPlayerTwo, singlePlayer, addGridToGame, startGame, setGame}) => {
 

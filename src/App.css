@@ -1,34 +1,18 @@
-.dropzone {
-  width: 50px; /* Adjust the width and height as needed */
-  height: 50px;
-  border: 1px solid #000; /* Add a border */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+body {
+  background-color: #00001a;
+  text-align: center;
 }
 
-.highlight {
-  background-color: yellow; /* Change the background color when a ship is dragged over the cell */
+h1 {
+  font-size: 350%;
 }
 
-.ship {
-  width: 50px; /* Adjust the width and height as needed */
-  height: 50px;
-  background-color: blue; /* Set the background color of the ship */
-  border: 1px solid #000; /* Add a border */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: move; /* Add a draggable cursor */
+h1 a {
+  text-decoration: none;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(8, 50px); /* Creates 8 equal-width columns */
-  /* Adds a gap of 5px between cells */
-}
-
-.setupGrid{
-  display:flex;
-  justify-content: space-between;
+h1 a:hover {
+  color: red;
 }

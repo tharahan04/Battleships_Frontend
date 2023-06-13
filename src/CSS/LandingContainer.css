@@ -1,0 +1,35 @@
+.landing_container{
+    justify-content: center;
+}
+
+.landing_container_buttons{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img {
+  height: 550px;
+}
+
+button {
+  background-color: #06063b;
+  border: 0;
+  border-radius: 9px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: 500;
+  min-height: 30px;
+  /* max-width: 170px; */
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 10px;
+}
+
+button:hover { 
+  background-color: #16437E;
+  color: #ffffff;
+}

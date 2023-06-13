@@ -3,6 +3,7 @@ import CellComponent from '../components/CellComponent';
 import ShipComponent from './ShipComponent';
 import Ship from './Ship';
 import DropZone from './DropZone';
+import "../CSS/Grid.css";
 
 const GridComponent = ({cells, ships, game}) => {
 
