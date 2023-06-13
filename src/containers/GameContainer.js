@@ -5,7 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Game } from "../components/Game";
 import { useMemo } from "react";
 
-const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsGridPlayerTwo,shipsPlayerOne, shipsPlayerTwo, singlePlayer, addGridToGame, startGame, setGame}) => {
+const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, setCellsGridPlayerOne, cellsGridPlayerTwo,shipsPlayerOne, shipsPlayerTwo, singlePlayer, addGridToGame, startGame, setGame}) => {
 
     const[newPlayer, setNewPlayer] = useState("");
 
@@ -292,6 +292,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                 cells={cellsGridPlayerOne} 
                 ships={shipsPlayerOne} 
                 cellsGridPlayerOne={cellsGridPlayerOne}
+                setCellsGridPlayerOne={setCellsGridPlayerOne}
                 game={game}
                 />
                 
@@ -304,7 +305,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                 />
             </DndProvider>
             </div>
-            <button type="submit">START</button>
+            {/* <button type="submit">START</button> */}
         </>
      );
 }

@@ -3,19 +3,24 @@ import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
 import CellComponent from "./CellComponent";
+import { json } from 'react-router';
 
-const DropZone = ({x, y, game, children, cellsGridPlayerOne, ships}) => {
+const DropZone = ({x, y, game, children, cellsGridPlayerOne, ships, setCellsGridPlayerOne}) => {
 
-    const findCellByCoordinate = (x,y) => {
+    const findCellIdByCoordinate = (x,y) => {
       if(x<0){
         return null;
       }
       const targetCell = cellsGridPlayerOne.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
-      return targetCell;
+      return targetCell.id;
     }
 
+    const id = findCellIdByCoordinate(x,y);
+
+    const targetCell = cellsGridPlayerOne.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
     
-    const [cellId, setCellId] = useState( x<0 ? null : 8*y + x);
+    const [cellId, setCellID] = useState(id);
+    const [cellPosition, setCellPosition] = useState(x < 0 ? null : 8*y +x)
     const [ship, setShip] = useState(null);
 
 
@@ -25,10 +30,35 @@ const DropZone = ({x, y, game, children, cellsGridPlayerOne, ships}) => {
       return targetShip;
     }
 
+    // const updateCells = async (shipId) =>{
+    //   console.log(targetCell);
+    //   const response = await fetch(`http://localhost:8080/cells/${targetCell.id}`,
+    //   {
+    //     method: "PATCH",
+    //     headers: {"Content-Type":"application/json"},
+    //     body: JSON.stringify(ship)
+    //   });
+    //   const data = await response.json();
+    //   // setCell(data);
+    //   console.log(data);
+    // }
+
+    const updateCells = (shipId) => {
+      const cells = [...cellsGridPlayerOne];
+      // console.log(cells);
+      const targetCell = cells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
+      const targetShip = findShipById(shipId);
+      console.log(targetShip);
+      console.log(targetCell);
+      // const updatedCells = cells.map(cell => cell.id === cellId ? targetCell : cell);
+      // setCellsGridPlayerOne(updatedCells);
+    }
+
     const setCellsShip = (shipId) => {
       const thisShip = findShipById(shipId);
       game.moveShip(shipId,x,y);
       setShip(thisShip);
+      updateCells(shipId);
     }
 
     const [{ isOver }, drop] = useDrop(
