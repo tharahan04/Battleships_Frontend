@@ -21,6 +21,20 @@ function App() {
   // Stores client data
   let socketClient = null;
 
+  const resetGame = async () => {
+    const response = await fetch("http://localhost:8080/games",
+    {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"}
+    });
+    const data = await response.json();
+    setGame(data);
+  }
+
+  const handleClick = () => {
+    resetGame();
+  }
+
   useEffect(() => {
     const fetchShips = async () =>{
       const response = await fetch("http://localhost:8080/ships");
@@ -130,7 +144,7 @@ function App() {
 
   return (
     <>
-    <h1><a href="/">BATTLESHIPS</a></h1>
+    <h1><a href="/" onClick={handleClick}>BATTLESHIPS</a></h1>
     <RouterProvider router={router}/> 
     </>
   );
