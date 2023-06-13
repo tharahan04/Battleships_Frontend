@@ -95,7 +95,18 @@ function App() {
     // set state to true (maybe not necessary unless we need it for something)
     setConnectToMultiplayer(true);
     // send connection request to server
-    socketClient.subscribe('/topic/game');
+    socketClient.subscribe('/topic/game', messageReceived);
+    socketClient.send('/app/register-player')
+  }
+
+  const messageReceived = (payload) => {
+    let payloadData = JSON.parse(payload.body)
+    console.log(payloadData)
+    let numberOfUsers = payloadData.body;
+    console.log(numberOfUsers);
+// if statement that looks to check if it is an integer 
+// numberOfUsers = state
+// else to handle the game logic 
   }
 
   // method is passed down to multiplayer button (so websocket only works when multiplayer is clicked)
@@ -106,6 +117,7 @@ function App() {
     socketClient = over(Sock);
     // creates connection and executes call back function
     socketClient.connect({}, onConnected);
+    // socketClient.send() 
   }
 
   const router = createBrowserRouter([
