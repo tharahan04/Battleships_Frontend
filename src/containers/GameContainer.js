@@ -2,6 +2,8 @@ import { useState } from "react";
 import GridComponent from "../components/GridComponent";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { Game } from "../components/Game";
+import { useMemo } from "react";
 
 const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsGridPlayerTwo, shipsPlayerOne, shipsPlayerTwo, singlePlayer, addGridToGame, startGame, setGame}) => {
 
@@ -271,7 +273,10 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
     //         return availableCells.filter(cell => cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate)[0];
     //     }
     // }
+
     
+
+    const game = useMemo(() => new Game(), []);
 
     return ( 
         <>
@@ -286,11 +291,16 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                 gridPlayerOne={gridPlayerOne} 
                 cells={cellsGridPlayerOne} 
                 ships={shipsPlayerOne} 
+               
+                game={game}
                 />
+                
                  <GridComponent 
                 gridPlayerOne={gridPlayerTwo} 
                 cells={cellsGridPlayerTwo} 
                 ships={shipsPlayerTwo}
+                
+                game={game}
                 />
             </DndProvider>
             </div>
