@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDrag } from "react-dnd";
+import { ItemTypes } from "./ItemTypes";
 
 const ShipComponent = ({ship, shipPlaced}) => {
 

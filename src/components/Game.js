@@ -1,7 +1,12 @@
 export class Game {
 
-    shipPosition = [1, 1];
-
+    shipPositions = {
+      ship1: [-1, 0],
+      ship2: [-1, 1],
+      ship3: [-1, 2],
+      ship4: [-1, 3],
+      ship5: [-1, 4]
+    };
     
 
     observers = []
@@ -13,8 +18,11 @@ export class Game {
       }
     }
 
-    moveShip(toX, toY) {
-      this.shipPosition = [toX, toY]
+    moveShip(shipId, toX, toY) {
+      this.shipPositions = {
+        ...this.shipPositions,
+        [shipId]: [toX, toY]
+      };
       this.emitChange()
     }
     // canMoveKnight(toX, toY) {
@@ -27,8 +35,8 @@ export class Game {
     //   )
     // }
     emitChange() {
-      const pos = this.shipPosition
-      this.observers.forEach((o) => o && o(pos))
+      const positions = this.shipPositions;
+      this.observers.forEach((o) => o && o(positions));
     }
   }
   

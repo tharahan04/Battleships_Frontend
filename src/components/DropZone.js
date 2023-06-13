@@ -10,17 +10,16 @@ const DropZone = ({x, y, game, children}) => {
     const [{ isOver }, drop] = useDrop(
         () => ({
           accept: ItemTypes.SHIP,
-          drop: () => game.moveShip(x, y),
+          drop: (item) => game.moveShip(item.shipId,x, y),
           collect: (monitor) => ({
             isOver: !!monitor.isOver(),
           }),
         }),
-        [game],
+        [game, x, y],
       )
 
     return (
         <div className={`dropzone ${isOver ? 'highlight' : ''}`} ref={drop}>
-            {/* {ship && <div className="ship">{ship.id}</div>} */}
             {children}
         </div> 
     );
