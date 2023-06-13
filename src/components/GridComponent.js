@@ -40,7 +40,7 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne}) => {
         const shipId = getShipIdAtPosition(x, y);
         return(
             <div key={i}>
-                <DropZone x={x} y={y} game={game}>{shipId && <Ship shipId={shipId} />}</DropZone>
+                <DropZone x={x} y={y} game={game} cellsGridPlayerOne={cellsGridPlayerOne} ships={ships}>{shipId && <Ship shipId={shipId} />}</DropZone>
              </div>
         )
     }

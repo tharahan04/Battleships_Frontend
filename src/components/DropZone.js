@@ -14,7 +14,8 @@ const DropZone = ({x, y, game, children, cellsGridPlayerOne, ships}) => {
       return targetCell;
     }
 
-    const [cellId, setCellId] = useState(8*y + x);
+    
+    const [cellId, setCellId] = useState( x<0 ? null : 8*y + x);
     const [ship, setShip] = useState(null);
 
 
