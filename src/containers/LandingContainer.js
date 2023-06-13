@@ -13,11 +13,11 @@ const LandingContainer = ({multiplayerEnabled, postGame}) => {
             postGame(true);
             navigate("/game");
         }
-        if (event.target.value === "multiplayer"){
-            multiplayerEnabled();
-            postGame(true);
-            navigate("/game");
-        }
+        // if (event.target.value === "multiplayer"){
+        //     multiplayerEnabled();
+        //     postGame(true);
+        //     navigate("/game");
+        // }
     }
 
 
@@ -26,8 +26,11 @@ const LandingContainer = ({multiplayerEnabled, postGame}) => {
             <div>
                 <button type="submit" onClick={handleClick} value="single player">SINGLE PLAYER</button>
             </div>
-            <button type="submit" onClick={handleClick} value="multiplayer">{<MultiplayerModal/>}</button>
-       </>
+        <MultiplayerModal 
+        multiplayerEnabled={multiplayerEnabled}
+        postGame={postGame}
+        />
+    </>
         
      );
 }
