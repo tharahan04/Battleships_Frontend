@@ -23,20 +23,6 @@ function App() {
   // Stores client data
   let socketClient = null;
 
-  const resetGame = async () => {
-    const response = await fetch("http://localhost:8080/games",
-    {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"}
-    });
-    const data = await response.json();
-    setGame(data);
-  }
-
-  const handleClick = () => {
-    resetGame();
-  }
-
   useEffect(() => {
     const fetchShips = async () =>{
       const response = await fetch("http://localhost:8080/ships");
