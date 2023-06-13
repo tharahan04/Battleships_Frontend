@@ -42,13 +42,3 @@ const CellComponent = ({children, game, cell}) => {
 };
 
 export default CellComponent;
-
-
-// const [{isOver}, drop] = useDrop(() => ({
-//   accept: ItemTypes.SHIP,
-//   drop: () => moveShip(cell.xCoordinate, cell.yCoordinate),
-//   collect: (monitor) => ({
-//     isOver: !!monitor.isOver(),
-//   })
-// }),
-// )

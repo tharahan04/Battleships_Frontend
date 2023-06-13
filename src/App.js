@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 
+
 function App() {
 
   const [game, setGame] = useState({}); 
@@ -17,6 +18,7 @@ function App() {
   const [shipsPlayerTwo, setShipsPlayerTwo] = useState([]);
   const [singlePlayer, setSinglePlayer] = useState(false);
   const [connectToMultiplayer, setConnectToMultiplayer] = useState(false);
+  const [numberOfUsers, setNumberOfUsers] = useState(0);
 
   // Stores client data
   let socketClient = null;
@@ -53,8 +55,7 @@ function App() {
     {
       method: "POST",
       headers: {"Content-Type":"application/json"}
-    }
-    );
+    });
     const data = await response.json();
     const updatedGame = await fetch(`http://localhost:8080/games`);
     const updatedData = await updatedGame.json();
@@ -94,13 +95,37 @@ function App() {
     setGame(data);
   }
 
+  const resetGame = async () => {
+    const response = await fetch("http://localhost:8080/games",
+    {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"}
+    });
+    const data = await response.json();
+    setGame(data);
+  }
+
+  const handleClick = () => {
+    resetGame();
+  }
 
   // function to detail what happens when connection happens
   const onConnected = () => {
     // set state to true (maybe not necessary unless we need it for something)
     setConnectToMultiplayer(true);
     // send connection request to server
-    socketClient.subscribe('/topic/game');
+    socketClient.subscribe('/topic/game', messageReceived);
+    socketClient.send('/app/register-player')
+  }
+
+  const messageReceived = (payload) => {
+    let payloadData = JSON.parse(payload.body)
+    let userNumbers = payloadData.body;
+    setNumberOfUsers(userNumbers);
+
+// if statement that looks to check if it is an integer 
+// numberOfUsers = state
+// else to handle the game logic 
   }
 
   // method is passed down to multiplayer button (so websocket only works when multiplayer is clicked)
@@ -111,6 +136,7 @@ function App() {
     socketClient = over(Sock);
     // creates connection and executes call back function
     socketClient.connect({}, onConnected);
+    // socketClient.send() 
   }
 
   const router = createBrowserRouter([
@@ -120,6 +146,7 @@ function App() {
         <LandingContainer 
         multiplayerEnabled={multiplayerEnabled}
         postGame = {postGame}
+        numberOfUsers = {numberOfUsers}
         />
       )
     }, 
