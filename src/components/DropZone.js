@@ -3,13 +3,14 @@ import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
 
-const DropZone = ({x, y, game, children}) => {
+const DropZone = ({x, y, game, children, ships}) => {
 
+       
 
     const [{ isOver }, drop] = useDrop(
         () => ({
           accept: ItemTypes.SHIP,
-          // canDrop: (item) => game.canDropShip(item.shipName, x, y),
+          canDrop: (item) => game.canDropShip(item.shipName, x, y, ships),
           drop: (item) => {
             game.moveShip(item.shipName,x, y);
           },

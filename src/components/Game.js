@@ -47,15 +47,16 @@ export class Game {
     //   )
     // }
 
-    // canDropShip(shipName, toX, toY, horizontal, size) {
-    //   const [x, y] = this.shipPositions[shipName];
+    canDropShip(shipName, toX, toY, ships) {
+      // const [x, y] = this.shipPositions[shipName];
+      const ship = ships.find((ship) => ship.name === shipName);
       
-    //   if (horizontal) {
-    //     return toX >= 0 && toX + size <= 8 && toY === y;
-    //   } else {
-    //     return toY >= 0 && toY + size <= 8 && toX === x;
-    //   }
-    // }
+      if (ship.horizontal) {
+        return (toX <= 8 - ship.size && (toY <= 7 && toY >= 0));
+      } else {
+        return (toY <= 8 - ship.size && (toX <= 7 && toX >= 0))
+      }
+    }  
 
     emitChange() {
       const positions = this.shipPositions;
