@@ -281,7 +281,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
 
     return ( 
         <>
-            <h2> SET UP GRID </h2>
+            <h2> SET UP YOUR SHIPS </h2>
             <h4> Drag & Drop the ships on to the map </h4>
 
             {/* {mapShips} */}
@@ -305,7 +305,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                 />
             </DndProvider>
             </div>
-            <button type="submit">START</button>
+            <button type="submit" id="startbutton">START</button>
         </>
      );
 }
