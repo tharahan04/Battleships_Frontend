@@ -17,8 +17,25 @@ const GridComponent = ({cells, ships, game, setShips}) => {
         setSelectedShip(ship);
     }
 
+    const canRotate = (ship) => {
+        const shipsPosition = game.shipPositions[ship.name];
+        const x = shipsPosition[0];
+        const y = shipsPosition[1];
+        if (ship.horizontal){
+            if(y <= 8 - ship.size){
+                return true;
+            } 
+            return false;
+        } else {
+            if(x <= 8 - ship.size){
+                return true;
+            } 
+            return false;
+        }
+    }
+
     const rotateShip = () => {
-        if (selectedShip) {
+        if (selectedShip && canRotate(selectedShip)) {
             const shipToRotate = ships.find((ship) => ship.id === selectedShip.id);
             const shipIndex = ships.indexOf(shipToRotate);
             const updatedShips = [...ships];
