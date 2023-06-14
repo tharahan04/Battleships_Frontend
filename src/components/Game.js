@@ -15,16 +15,7 @@ export class Game {
       this.shipPositions[ship.name] = [-1, index];
       });
     }
-    
-
-    // shipPositions = {};
-
-    // constructor(shipsPlayerOne) {
-    //   shipsPlayerOne.forEach((ship, index) => {
-    //   this.shipPositions[ship.name] = [-1, index];
-    //   });
-    // }
-
+  
     observers = []
     observe(o) {
       this.observers.push(o)

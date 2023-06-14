@@ -2,39 +2,35 @@ import { React, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
-const DropZone = ({x, y, game, children, cells, ship, setCells}) => {
+const DropZone = ({x, y, game, children, cells, ships, setCells}) => {
 
-    const findCellIdByCoordinate = (cellx,celly) => {
-      if(cellx<0){
-        return null;
-      }
-      const targetCell = cells.find(cell => cell.xCoordinate === cellx && cell.yCoordinate === celly);
-      return targetCell.id;
-    }
+  // const [cell, setCell] = useState(id);
+  const [cellPosition, setCellPosition] = useState(x < 0 ? null : 8*y +x)
 
+    // const findCellIdByCoordinate = (cellx,celly) => {
+    //   if(cellx<0){
+    //     return null;
+    //   }
+    //   const targetCell = cells.find(cell => cell.xCoordinate === cellx && cell.yCoordinate === celly);
+    //   return targetCell.id;
+    // }
 
-    const id = findCellIdByCoordinate(x,y);
+    // const id = findCellIdByCoordinate(x,y);
 
     // const targetCell = cells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
     // console.log(targetCell);
     // const id = targetCell.id;
-
-    const [cell, setCell] = useState(id);
-    const [cellPosition, setCellPosition] = useState(x < 0 ? null : 8*y +x)
     
-    // const findShipById = (shipId) => {
-    //   const shipIdNumber = parseInt(shipId.slice(-1));
-    //   // console.log(shipIdNumber);
-    //   // console.log(ships);
-    //   const targetShip = ships.find(ship => ship.id === shipIdNumber);
-    //   // console.log(targetShip);
-    //   return targetShip;
-    // }
+    const findShipByName = (shipName) => {
+      console.log(shipName.shipName);
+      const targetShip = ships.find(ship => ship.name === shipName.shipName);
+      // console.log(ships[0].name);
+      console.log(targetShip);
+      return targetShip;
+    }
 
-
-    const cellsShipCovers = () => {
-      
-      // console.log(targetShip);
+    const cellsShipCovers = (shipName) => {
+      const ship = findShipByName(shipName);
       const shipLength = ship.size;
       const newCells = [...cells];
       const targetCell = newCells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
@@ -44,22 +40,23 @@ const DropZone = ({x, y, game, children, cells, ship, setCells}) => {
         let nextCell = newCells.find(cell => cell.xCoordinate === x+i && cell.yCoordinate === y);
         targetCells.push(nextCell);
       }
-      // console.log(targetCells);
       return targetCells;
     }
 
-    const updateCells = () => {
+    const updateCells = (shipName) => {
+      const ship = findShipByName(shipName);
       const newCells = [...cells];
+      let cell;
       for(cell of newCells){
         if (cell.ship === ship){
           cell.ship = null;
         }
       }
-      const targetShip = ship;
-      const targetCells = cellsShipCovers();
+      const targetCells = cellsShipCovers(shipName);
+      console.log(targetCells);
       let targetCell;
       for(targetCell of targetCells){
-        targetCell.ship = targetShip;
+        targetCell.ship = ship; // problem here
       }
       const targetCellCoordinates = targetCells.map(cell => [cell.xCoordinate, cell.yCoordinate]);
       
@@ -70,17 +67,17 @@ const DropZone = ({x, y, game, children, cells, ship, setCells}) => {
       setCells(updatedCells);
     }
 
-    const setCellsShip = () => {
-      // const thisShip = findShipById(shipId);
+    const setCellsShip = (shipName) => {
+      const ship = findShipByName(shipName);
       game.moveShip(ship,x,y);
-      updateCells();
+      updateCells(shipName);
     }
 
     const [{ isOver }, drop] = useDrop(
         () => ({
           accept: ItemTypes.SHIP,
           // drop: (item) => game.moveShip(item.shipId,x, y),
-          drop: (item) => setCellsShip(item.shipId),
+          drop: (item) => setCellsShip(item),
           collect: (monitor) => ({
             isOver: !!monitor.isOver(),
           }),

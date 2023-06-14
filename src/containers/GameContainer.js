@@ -274,8 +274,6 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, setCel
     //     }
     // }
 
-    
-
     const game = useMemo(() => new Game(shipsPlayerOne), [shipsPlayerOne]);
 
     return ( 
