@@ -10,11 +10,21 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlay
     useEffect(() => game.observe(setShipPositions), [game]);
     
 
-    const getShipIdAtPosition = (x, y) => {
-        for (const shipId of Object.keys(shipPositions)) {
-          const [posX, posY] = shipPositions[shipId];
+    const getShipNameAtPosition = (x, y) => {
+        for (const shipName of Object.keys(shipPositions)) {
+          const [posX, posY] = shipPositions[shipName];
           if (posX === x && posY === y) {
-            return shipId;
+            return shipName;
+          }
+        }
+        return null;
+    };
+
+    const getShipAtPosition = (x, y) => {
+        for (const shipName of Object.keys(shipPositions)) {
+          const [posX, posY] = shipPositions[shipName];
+          if (posX === x && posY === y) {
+            return ships.find((ship) => ship.name === shipName); // Return the ship object instead of just the ship name
           }
         }
         return null;
@@ -23,12 +33,12 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlay
     const renderDropZone = (i) => {
         const x = i % 8;
         const y = Math.floor(i / 8);
-        const shipId = getShipIdAtPosition(x, y);
-        const cell = cells[i];
+        const shipName = getShipNameAtPosition(x, y);
+        const ship = getShipAtPosition(x, y);
         return (
           <div key={i}>
-            <DropZone x={x} y={y} game={game} cellsGridPlayerOne={cellsGridPlayerOne} ships={ships} setCellsGridPlayerOne={setCellsGridPlayerOne} gridPlayerOne={gridPlayerOne}>
-              {shipId && <Ship shipId={shipId} />}
+            <DropZone x={x} y={y} game={game}>
+              {shipName && <Ship shipName={shipName} ship={ship}/>}
             </DropZone>
           </div>
         );
@@ -37,12 +47,11 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlay
     const renderDropZone2 = (i) => {
         const y = i;
         const x = -1;
-        const shipId = getShipIdAtPosition(x, y);
+        const shipName = getShipNameAtPosition(x, y);
+        const ship = getShipAtPosition(x, y);
         return(
             <div key={i}>
-                <DropZone x={x} y={y} game={game} cellsGridPlayerOne={cellsGridPlayerOne} ships={ships} setCellsGridPlayerOne={setCellsGridPlayerOne} gridPlayerOne={gridPlayerOne} >
-                  {shipId && <Ship shipId={shipId} />}
-                </DropZone>
+                <DropZone x={x} y={y} game={game}>{shipName && <Ship shipName={shipName} ship={ship}/>}</DropZone>
              </div>
         )
     }
@@ -60,7 +69,7 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlay
     
     return ( 
         <>
-        <div>
+        <div className='shipContainers'>
             {otherSquares}
         </div>
         <div className='grid'>

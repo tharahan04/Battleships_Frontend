@@ -1,25 +1,34 @@
 import { ItemTypes } from "./ItemTypes";
 import { useDrag } from "react-dnd";
 
-const Ship = ({shipId}) => {
+const Ship = ({ship}) => {
+
+    const shipName = ship.name;
 
     const [{isDragging}, drag] = useDrag(() => ({
         type: ItemTypes.SHIP,
-        item: { shipId },
+        item: { shipName },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging()
         })
     }))
 
-    // return ( 
-    //     <div ref={drag}>           
-    //         <p>Ship</p>
-    //     </div>
-    //  );
+
+    const shipStyle = ship ? {
+        width: `50px`, // Adjust the multiplier as needed
+        height: `${50 * ship.size}px`,
+        backgroundColor: "blue",
+        border: "1px solid #000",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "move",
+    } : null ;
+    
 
     return ( 
-        <div className={`ship ${isDragging ? "dragging" : ""}`} ref={drag}> 
-            <p>Ship {shipId}</p>
+        <div className={`ship ${isDragging ? "dragging" : ""}`} ref={drag} style={shipStyle}> 
+            <p>{shipName}</p>
         </div>
      );
 }

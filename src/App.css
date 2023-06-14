@@ -11,15 +11,20 @@
   background-color: yellow; /* Change the background color when a ship is dragged over the cell */
 }
 
-.ship {
-  width: 50px; /* Adjust the width and height as needed */
-  height: 50px;
-  background-color: blue; /* Set the background color of the ship */
-  border: 1px solid #000; /* Add a border */
+/* .ship {
+  width: 50px;
+  height: 100px;
+  background-color: blue; 
+  border: 1px solid #000; 
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: move; /* Add a draggable cursor */
+  cursor: move; 
+} */
+
+.ship p {
+  width: 100%; /* Limit the width of the <p> tag to 100% of its container */
+  margin: 0; /* Remove any default margin */
 }
 
 .grid {
@@ -30,5 +35,15 @@
 
 .setupGrid{
   display:flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  /* display: grid;
+  grid-template-columns: 50% 50%; */
+}
+
+.shipContainers{
+  /* display: grid;
+  grid-template-columns: 50% 50%; */
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
