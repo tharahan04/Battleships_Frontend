@@ -5,21 +5,33 @@ import { ItemTypes } from './ItemTypes';
 import CellComponent from "./CellComponent";
 import { json } from 'react-router';
 
-const DropZone = ({x, y, game, children, cellsGridPlayerOne, ships, setCellsGridPlayerOne}) => {
+const DropZone = ({x, y, game, children, cellsGridPlayerOne, ships, setCellsGridPlayerOne, gridPlayerOne}) => {
 
-    const findCellIdByCoordinate = (x,y) => {
-      if(x<0){
+    const findCellIdByCoordinate = (cellx,celly) => {
+      if(cellx<0){
         return null;
       }
-      const targetCell = cellsGridPlayerOne.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
+      const targetCell = cellsGridPlayerOne.find(cell => cell.xCoordinate === cellx && cell.yCoordinate === celly);
       return targetCell.id;
     }
 
+    // const [stateCell, setStateCell] = useState(
+    //   {
+    //     xCoordinate: x,
+    //     yCoordinate: y,
+    //     hasBeenHit: false,
+    //     ship: null,
+    //     grid: gridPlayerOne
+    //   }
+    // )
+
     const id = findCellIdByCoordinate(x,y);
 
-    const targetCell = cellsGridPlayerOne.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
-    
-    const [cellId, setCellID] = useState(id);
+    // const targetCell = cellsGridPlayerOne.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
+    // console.log(targetCell);
+    // const id = targetCell.id;
+
+    const [cell, setCell] = useState(id);
     const [cellPosition, setCellPosition] = useState(x < 0 ? null : 8*y +x)
     const [ship, setShip] = useState(null);
 
@@ -46,12 +58,25 @@ const DropZone = ({x, y, game, children, cellsGridPlayerOne, ships, setCellsGrid
     const updateCells = (shipId) => {
       const cells = [...cellsGridPlayerOne];
       // console.log(cells);
-      const targetCell = cells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
+      
+      // const targetCell = cells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
       const targetShip = findShipById(shipId);
       console.log(targetShip);
-      console.log(targetCell);
-      // const updatedCells = cells.map(cell => cell.id === cellId ? targetCell : cell);
-      // setCellsGridPlayerOne(updatedCells);
+      const newCell = {
+        id: id,
+        xCoordinate: x,
+        yCoordinate: y,
+        hasBeenHit: false,
+        ship: targetShip,
+        grid: gridPlayerOne
+      }
+      console.log(newCell);
+      // console.log(targetCell);
+      const updatedCells = cells.map((cell) => 
+        {return cell.xCoordinate === x && cell.yCoordinate === y ? newCell : cell}
+        );
+      console.log(updatedCells);
+      setCellsGridPlayerOne(updatedCells);
     }
 
     const setCellsShip = (shipId) => {

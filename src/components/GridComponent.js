@@ -4,7 +4,7 @@ import ShipComponent from './ShipComponent';
 import Ship from './Ship';
 import DropZone from './DropZone';
 
-const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlayerOne}) => {
+const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlayerOne, gridPlayerOne}) => {
 
     const [shipPositions, setShipPositions] = useState(game.shipPositions);
     useEffect(() => game.observe(setShipPositions), [game]);
@@ -27,7 +27,7 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlay
         const cell = cells[i];
         return (
           <div key={i}>
-            <DropZone x={x} y={y} game={game} cellsGridPlayerOne={cellsGridPlayerOne} ships={ships} setCellsGridPlayerOne={setCellsGridPlayerOne}>
+            <DropZone x={x} y={y} game={game} cellsGridPlayerOne={cellsGridPlayerOne} ships={ships} setCellsGridPlayerOne={setCellsGridPlayerOne} gridPlayerOne={gridPlayerOne}>
               {shipId && <Ship shipId={shipId} />}
             </DropZone>
           </div>
@@ -40,7 +40,7 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlay
         const shipId = getShipIdAtPosition(x, y);
         return(
             <div key={i}>
-                <DropZone x={x} y={y} game={game} cellsGridPlayerOne={cellsGridPlayerOne} ships={ships} setCellsGridPlayerOne={setCellsGridPlayerOne}>
+                <DropZone x={x} y={y} game={game} cellsGridPlayerOne={cellsGridPlayerOne} ships={ships} setCellsGridPlayerOne={setCellsGridPlayerOne} gridPlayerOne={gridPlayerOne} >
                   {shipId && <Ship shipId={shipId} />}
                 </DropZone>
              </div>
