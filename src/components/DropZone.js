@@ -10,7 +10,7 @@ const DropZone = ({x, y, game, children}) => {
     const [{ isOver }, drop] = useDrop(
         () => ({
           accept: ItemTypes.SHIP,
-          drop: (item) => game.moveShip(item.shipId,x, y),
+          drop: (item) => game.moveShip(item.shipName,x, y),
           collect: (monitor) => ({
             isOver: !!monitor.isOver(),
           }),

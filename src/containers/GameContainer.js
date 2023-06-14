@@ -276,7 +276,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
 
     
 
-    const game = useMemo(() => new Game(), []);
+    const game = useMemo(() => new Game(shipsPlayerOne), [shipsPlayerOne]);
 
     return ( 
         <>
@@ -291,15 +291,6 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                 gridPlayerOne={gridPlayerOne} 
                 cells={cellsGridPlayerOne} 
                 ships={shipsPlayerOne} 
-               
-                game={game}
-                />
-                
-                 <GridComponent 
-                gridPlayerOne={gridPlayerTwo} 
-                cells={cellsGridPlayerTwo} 
-                ships={shipsPlayerTwo}
-                
                 game={game}
                 />
             </DndProvider>

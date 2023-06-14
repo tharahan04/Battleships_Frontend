@@ -1,12 +1,20 @@
 export class Game {
 
-    shipPositions = {
-      ship1: [-1, 0],
-      ship2: [-1, 1],
-      ship3: [-1, 2],
-      ship4: [-1, 3],
-      ship5: [-1, 4]
-    };
+    // shipPositions = {
+    //   ship1: [-1, 0],
+    //   ship2: [-1, 1],
+    //   ship3: [-1, 2],
+    //   ship4: [-1, 3],
+    //   ship5: [-1, 4]
+    // };
+
+    shipPositions = {};
+
+    constructor(shipsPlayerOne) {
+      shipsPlayerOne.forEach((ship, index) => {
+      this.shipPositions[ship.name] = [-1, index];
+      });
+    }
     
 
     observers = []
@@ -18,10 +26,10 @@ export class Game {
       }
     }
 
-    moveShip(shipId, toX, toY) {
+    moveShip(shipName, toX, toY) {
       this.shipPositions = {
         ...this.shipPositions,
-        [shipId]: [toX, toY]
+        [shipName]: [toX, toY]
       };
       this.emitChange()
     }
