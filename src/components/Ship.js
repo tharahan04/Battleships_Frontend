@@ -3,7 +3,7 @@ import { useDrag } from "react-dnd";
 
 const Ship = ({ship}) => {
 
-    const shipName = ship.name;
+    const shipName = ship.name;   
 
     const [{isDragging}, drag] = useDrag(() => ({
         type: ItemTypes.SHIP,
