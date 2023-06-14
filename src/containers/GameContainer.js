@@ -296,13 +296,13 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, setCel
                 game={game}
                 />
                 
-                 <GridComponent 
+                 {/* <GridComponent 
                 gridPlayerOne={gridPlayerTwo} 
                 cells={cellsGridPlayerTwo} 
                 ships={shipsPlayerTwo}
                 cellsGridPlayerOne={cellsGridPlayerOne}
                 game={game}
-                />
+                /> */}
             </DndProvider>
             </div>
             {/* <button type="submit">START</button> */}

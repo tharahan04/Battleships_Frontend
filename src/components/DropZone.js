@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
@@ -36,46 +36,47 @@ const DropZone = ({x, y, game, children, cellsGridPlayerOne, ships, setCellsGrid
     const [ship, setShip] = useState(null);
 
 
+
     const findShipById = (shipId) => {
       const shipIdNumber = parseInt(shipId.slice(-1));
+      // console.log(shipIdNumber);
+      // console.log(ships);
       const targetShip = ships.find(ship => ship.id === shipIdNumber);
+      // console.log(targetShip);
       return targetShip;
     }
 
-    // const updateCells = async (shipId) =>{
-    //   console.log(targetCell);
-    //   const response = await fetch(`http://localhost:8080/cells/${targetCell.id}`,
-    //   {
-    //     method: "PATCH",
-    //     headers: {"Content-Type":"application/json"},
-    //     body: JSON.stringify(ship)
-    //   });
-    //   const data = await response.json();
-    //   // setCell(data);
-    //   console.log(data);
-    // }
+
+    const cellsShipCovers = (shipId) => {
+      const targetShip = findShipById(shipId);
+      // console.log(targetShip);
+      const shipLength = targetShip.size;
+      const cells = [...cellsGridPlayerOne];
+      const targetCell = cells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
+      const targetCells = [targetCell];
+      let i;
+      for (i=1; i<shipLength; i++){
+        let nextCell = cells.find(cell => cell.xCoordinate === x+i && cell.yCoordinate === y);
+        targetCells.push(nextCell);
+      }
+      // console.log(targetCells);
+      return targetCells;
+    }
 
     const updateCells = (shipId) => {
       const cells = [...cellsGridPlayerOne];
-      // console.log(cells);
-      
-      // const targetCell = cells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y);
       const targetShip = findShipById(shipId);
-      console.log(targetShip);
-      const newCell = {
-        id: id,
-        xCoordinate: x,
-        yCoordinate: y,
-        hasBeenHit: false,
-        ship: targetShip,
-        grid: gridPlayerOne
+      const targetCells = cellsShipCovers(shipId);
+      let targetCell;
+      for(targetCell of targetCells){
+        targetCell.ship = targetShip;
       }
-      console.log(newCell);
-      // console.log(targetCell);
+      const targetCellCoordinates = targetCells.map(cell => [cell.xCoordinate, cell.yCoordinate]);
+      
       const updatedCells = cells.map((cell) => 
-        {return cell.xCoordinate === x && cell.yCoordinate === y ? newCell : cell}
+        {
+          return targetCellCoordinates.includes([cell.xCoordinate, cell.yCoordinate])  ? targetCells.find(newCell => newCell.xCoordinate===cell.xCoordinate && newCell.yCoordinate===cell.yCoordinate ) : cell}
         );
-      console.log(updatedCells);
       setCellsGridPlayerOne(updatedCells);
     }
 
