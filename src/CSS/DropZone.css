@@ -1,13 +1,17 @@
 .dropzone {
     width: 50px; /* Adjust the width and height as needed */
     height: 50px;
-    border: 1px solid #06cf0c; /* Add a border */
+    border: 1px solid #fefffe; /* Add a border */
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(3, 40, 92);
+    background-color: rgb(7, 69, 145);
+    background-image: url(../assets/sea_grid_background.jpeg);
+
   }
 
 .highlight {
-  background-color: rgba(91, 89, 89, 0.949); /* Change the background color when a ship is dragged over the cell */
+  background-image: url(../assets/green_square.png); /* Change the background color when a ship is dragged over the cell */
+
 }
+

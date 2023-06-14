@@ -16,6 +16,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
     const[lastShotShipFirstHit, setLastShotShipFirstHit] = useState([]);
     const[lastShotShipSecondHit, setLastShotShipSecondHit] = useState([]);
     const[switchDirection, setSwitchDirection] = useState([]);
+    const [gameStarted, setGameStarted] = useState(false);
     
     // const[hitCellsNotSunk, setHitCellsNotSunk] = useState([]);
     // const[targetCells, setTargetCells] = useState([]);
@@ -63,6 +64,10 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
         });
         const data = await response.json();
         setGame(data);
+    }
+
+    const handleStartGameButton = () => {
+        setGameStarted(true);
     }
 
 
@@ -288,6 +293,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
             {/* <input type="text" placeholder="Enter user name" value={newPlayer} onChange={handleNameChange} /> */}
             <div className="setupGrid">
             <DndProvider backend={HTML5Backend}>
+                <div className="playerone">
                 <GridComponent 
                 gridPlayerOne={gridPlayerOne} 
                 cells={cellsGridPlayerOne} 
@@ -295,7 +301,9 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                
                 game={game}
                 />
+                </div>
                 
+                <div className = {!gameStarted ? "playertwonone" : "playertwo"}>
                  <GridComponent 
                 gridPlayerOne={gridPlayerTwo} 
                 cells={cellsGridPlayerTwo} 
@@ -303,9 +311,10 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                 
                 game={game}
                 />
+                </div>
             </DndProvider>
             </div>
-            <button type="submit" id="startbutton">START</button>
+            <button onClick={handleStartGameButton} type="submit" id="startbutton">START</button>
         </>
      );
 }

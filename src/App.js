@@ -138,6 +138,7 @@ function App() {
           addGridToGame={addGridToGame}
           startGame={startGame}
           setGame={setGame}
+          game={game}
         />
       ),
     },
