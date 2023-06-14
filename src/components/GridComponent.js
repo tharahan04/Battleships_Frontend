@@ -59,7 +59,7 @@ const GridComponent = ({cells, ships, game}) => {
     
     return ( 
         <>
-        <div>
+        <div className='ships'>
             {otherSquares}
         </div>
         <div className='grid'>

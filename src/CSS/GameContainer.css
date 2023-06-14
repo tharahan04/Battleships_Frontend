@@ -3,8 +3,10 @@
 
 
 .setupGrid{
-    display:flex;
-    justify-content: space-evenly;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    /* justify-content: space-evenly; */
   }
 
   h2{
@@ -31,11 +33,14 @@
   .playertwonone{
     display: none;
   }
+  
 
   .playerone{
-    display: grid;
+    display:flex;
     
   }
+
+  
 
 
 

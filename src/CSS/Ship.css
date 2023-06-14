@@ -8,3 +8,10 @@
     justify-content: center;
     cursor: move; /* Add a draggable cursor */
   }  
+
+  .ships{
+    justify-self: center;
+    align-items: center;
+    justify-items: center;
+    flex-direction: flex-start;
+  }
