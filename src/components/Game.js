@@ -10,9 +10,12 @@ export class Game {
 
     shipPositions = {};
 
+    // shipIsHorizontal = {};
+
     constructor(shipsPlayerOne) {
       shipsPlayerOne.forEach((ship, index) => {
       this.shipPositions[ship.name] = [-1, index];
+      // this.shipIsHorizontal[ship.name] = false;
       });
     }
     

@@ -2,15 +2,17 @@ import { React, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
-import CellComponent from "./CellComponent";
 
-const DropZone = ({x, y, game, children}) => {
+const DropZone = ({x, y, game, children, selectShip}) => {
 
 
     const [{ isOver }, drop] = useDrop(
         () => ({
           accept: ItemTypes.SHIP,
-          drop: (item) => game.moveShip(item.shipName,x, y),
+          drop: (item) => {
+            game.moveShip(item.shipName,x, y);
+            selectShip(item.shipName);
+          },
           collect: (monitor) => ({
             isOver: !!monitor.isOver(),
           }),
