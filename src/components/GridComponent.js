@@ -37,8 +37,8 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlay
         const ship = getShipAtPosition(x, y);
         return (
           <div key={i}>
-            <DropZone x={x} y={y} game={game}>
-              {shipName && <Ship shipName={shipName} ship={ship}/>}
+            <DropZone x={x} y={y} game={game} ship={ship} cells = {cells} setCells={setCellsGridPlayerOne}>
+              {shipName && <Ship ship={ship} />}
             </DropZone>
           </div>
         );
@@ -51,7 +51,9 @@ const GridComponent = ({cells, ships, game, cellsGridPlayerOne, setCellsGridPlay
         const ship = getShipAtPosition(x, y);
         return(
             <div key={i}>
-                <DropZone x={x} y={y} game={game}>{shipName && <Ship shipName={shipName} ship={ship}/>}</DropZone>
+                <DropZone x={x} y={y} game={game} ship={ship} cells = {cells} setCells={setCellsGridPlayerOne}>
+                  {shipName && <Ship ship={ship} />
+                  }</DropZone>
              </div>
         )
     }

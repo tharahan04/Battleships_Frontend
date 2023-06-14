@@ -290,6 +290,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, setCel
                 <GridComponent 
                 gridPlayerOne={gridPlayerOne} 
                 cells={cellsGridPlayerOne} 
+                setCells={setCellsGridPlayerOne}
                 ships={shipsPlayerOne} 
                 game={game}
                 /> 
