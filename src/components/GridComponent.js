@@ -2,51 +2,18 @@ import { useEffect, useState } from 'react';
 import Ship from './Ship';
 import DropZone from './DropZone';
 
-const GridComponent = ({cells, ships, game, setShips}) => {
+const GridComponent = ({cells, ships, game, setShips, setDisabled}) => {
 
-    const [cellsCovered, setCellsCovered] = useState([]);
+    const [cellsCovered, setCellsCovered] = useState(null);
     const [shipPositions, setShipPositions] = useState(game.shipPositions);
     const [selectedShip, setSelectedShip] = useState(null);
     const [canStart, setCanStart] = useState(false);
 
     useEffect(() => game.observe(setShipPositions), [game]);
     
-    // const getShipByName = (shipName) => {
-    //     return ships.find((ship) => ship.name === shipName);
-    // };
 
     const selectShip = (ship) => {
         setSelectedShip(ship);
-    }
-
-    const getCellsCoveredByShip = (ship) => {
-      const shipsPosition = game.shipPositions[ship.name];
-      const x = shipsPosition[0];
-      const y = shipsPosition[1];
-      const horizontal = ship.horizontal;
-      let cellsCovered = [];
-      if(horizontal){
-        for (i=0; i< ship.size; i++){
-          cellsCovered.push([x+i, y]);
-        }
-      }else{
-        for (i=0; i< ship.size; i++){
-          cellsCovered.push([x, y+i]);
-        }
-      }
-      return cellsCovered;
-    }
-
-    const totalCellsCovered = () => {
-      let cellsCovered = [];
-      for(let ship in ships){
-        cellsCovered.push(getCellsCoveredByShip(ship));
-      }
-      return [... new Set(cellsCovered)];
-    }
-
-    const checkCanStart = () =>{
-      return totalCellsCovered().length === 17;
     }
 
     const canRotate = (ship) => {
@@ -135,14 +102,48 @@ const GridComponent = ({cells, ships, game, setShips}) => {
         otherSquares.push(renderDropZone2(i))
     }
 
+    const checkGrid = () => {
+        const coveredCells = {};
+        for (const shipName of Object.keys(shipPositions)) {
+            const [posX, posY] = shipPositions[shipName];
+            if (posX < 0) {
+              alert('you have not put all the ships on the grid >:(');
+            }
+            const ship = ships.find((ship) => ship.name === shipName);
+            const size = ship.size;
+            for(let i = 0; i < ship.size; i++){
+                if(ship.horizontal){
+                    coveredCells[shipName + i] = [posX + i, posY];
+                } else {
+                    coveredCells[shipName + i] = [posX, posY + i];
+                }
+            }
+        }
+        
+        const filteredCells = Object.values(coveredCells).filter(
+            (value, index, array) =>
+              array.findIndex((val) => val[0] === value[0] && val[1] === value[1]) === index
+        );
+        const filteredCellsSize = Object.keys(filteredCells).length;
+        console.log(filteredCells);
+        setCellsCovered(coveredCells);
+        if(filteredCellsSize === 17){
+            setDisabled(false);
+            
+            console.log(cellsCovered);
+        } else {
+            alert('ships are overlapping >:(')
+            setDisabled(true);
+        }
+    }
 
-    
-    
+
     return ( 
         <>
         <div className='shipContainers'>
             <button className="rotate" onClick={rotateShip}>ROTATE</button>
             {otherSquares}
+            <button className="checkGrid" onClick={checkGrid}>CHECK GRID</button>
         </div>
         <div className='grid'>
             {squares}

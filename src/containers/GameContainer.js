@@ -9,6 +9,8 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
 
     const[newPlayer, setNewPlayer] = useState("");
 
+    const[disabled, setDisabled] = useState(true);
+
     const[availableCells, setAvailableCells] = useState([]);
     const[nearbyCells, setNearbyCells] = useState([]);
 
@@ -288,6 +290,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
             <div className="setupGrid">
             <DndProvider backend={HTML5Backend}>
                 <GridComponent 
+                setDisabled={setDisabled}
                 setShips={setShipsPlayerOne}
                 gridPlayerOne={gridPlayerOne} 
                 cells={cellsGridPlayerOne} 
@@ -296,7 +299,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                 />
             </DndProvider>
             </div>
-            <button type="submit">START</button>
+            <button type="submit" disabled={disabled}>START</button>
         </>
      );
 }
