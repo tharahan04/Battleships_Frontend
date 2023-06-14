@@ -4,8 +4,10 @@ import DropZone from './DropZone';
 
 const GridComponent = ({cells, ships, game, setShips}) => {
 
+    const [cellsCovered, setCellsCovered] = useState([]);
     const [shipPositions, setShipPositions] = useState(game.shipPositions);
     const [selectedShip, setSelectedShip] = useState(null);
+    const [canStart, setCanStart] = useState(false);
 
     useEffect(() => game.observe(setShipPositions), [game]);
     
@@ -15,6 +17,36 @@ const GridComponent = ({cells, ships, game, setShips}) => {
 
     const selectShip = (ship) => {
         setSelectedShip(ship);
+    }
+
+    const getCellsCoveredByShip = (ship) => {
+      const shipsPosition = game.shipPositions[ship.name];
+      const x = shipsPosition[0];
+      const y = shipsPosition[1];
+      const horizontal = ship.horizontal;
+      let cellsCovered = [];
+      if(horizontal){
+        for (i=0; i< ship.size; i++){
+          cellsCovered.push([x+i, y]);
+        }
+      }else{
+        for (i=0; i< ship.size; i++){
+          cellsCovered.push([x, y+i]);
+        }
+      }
+      return cellsCovered;
+    }
+
+    const totalCellsCovered = () => {
+      let cellsCovered = [];
+      for(let ship in ships){
+        cellsCovered.push(getCellsCoveredByShip(ship));
+      }
+      return [... new Set(cellsCovered)];
+    }
+
+    const checkCanStart = () =>{
+      return totalCellsCovered().length === 17;
     }
 
     const canRotate = (ship) => {

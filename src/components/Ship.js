@@ -2,6 +2,8 @@ import { ItemTypes } from "./ItemTypes";
 import { useDrag } from "react-dnd";
 
 const Ship = ({shipName, ship, selectShip, rotateShip}) => {
+
+    
     
     const [{isDragging}, drag] = useDrag(() => ({
         type: ItemTypes.SHIP,
