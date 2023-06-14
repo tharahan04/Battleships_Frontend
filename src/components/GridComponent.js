@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import CellComponent from '../components/CellComponent';
-import ShipComponent from './ShipComponent';
 import Ship from './Ship';
 import DropZone from './DropZone';
 

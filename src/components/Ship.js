@@ -14,16 +14,18 @@ const Ship = ({ship}) => {
     }))
 
 
-    const shipStyle = ship ? {
-        width: `50px`, // Adjust the multiplier as needed
-        height: `${50 * ship.size}px`,
+
+    const shipStyle = {
+        top: `${25 * (ship.size - 1)}px`, // Adjust the multiplier as needed
         backgroundColor: "blue",
-        border: "1px solid #000",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         cursor: "move",
-    } : null ;
+        position: "relative", // Add position:relative to the ship
+        width: "50px",
+        height: `${50 * ship.size}px`,
+      };
     
 
     return ( 
