@@ -19,7 +19,6 @@ export class Game {
       });
     }
     
-
     observers = []
     observe(o) {
       this.observers.push(o)
@@ -37,20 +36,8 @@ export class Game {
       this.emitChange()
     }
 
-    // canDropShip(shipName, toX, toY) {
-    //   const [x, y] = this.shipPosition
-    //   const dx = toX - x
-    //   const dy = toY - y
-    //   return (
-    //     (Math.abs(dx) === 2 && Math.abs(dy) === 1) ||
-    //     (Math.abs(dx) === 1 && Math.abs(dy) === 2)
-    //   )
-    // }
-
     canDropShip(shipName, toX, toY, ships) {
-      // const [x, y] = this.shipPositions[shipName];
       const ship = ships.find((ship) => ship.name === shipName);
-      
       if (ship.horizontal) {
         return (toX <= 8 - ship.size && (toY <= 7 && toY >= 0));
       } else {
