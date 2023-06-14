@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import Ship from './Ship';
 import DropZone from './DropZone';
 
-const GridComponent = ({cells, ships, game}) => {
+const GridComponent = ({cells, ships, game, setShips}) => {
 
     const [shipPositions, setShipPositions] = useState(game.shipPositions);
-    // const [selectedShip, setSelectedShip] = useState(null);
+    const [selectedShip, setSelectedShip] = useState(null);
 
     useEffect(() => game.observe(setShipPositions), [game]);
     
@@ -13,16 +13,19 @@ const GridComponent = ({cells, ships, game}) => {
     //     return ships.find((ship) => ship.name === shipName);
     // };
 
-    // const selectShip = (shipName) => {
-    //     const ship = getShipByName(shipName);
-    //     setSelectedShip(ship);
-    // }
+    const selectShip = (ship) => {
+        setSelectedShip(ship);
+    }
 
-    // const rotateShip = () => {
-    //     if (selectedShip) {
-    //       selectedShip.horizontal = !selectedShip.horizontal;
-    //     }
-    // };    
+    const rotateShip = () => {
+        if (selectedShip) {
+            const shipToRotate = ships.find((ship) => ship.id === selectedShip.id);
+            const shipIndex = ships.indexOf(shipToRotate);
+            const updatedShips = [...ships];
+            updatedShips[shipIndex].horizontal = !updatedShips[shipIndex].horizontal;
+            setShips(updatedShips);
+        }
+    };    
 
     const getShipNameAtPosition = (x, y) => {
         for (const shipName of Object.keys(shipPositions)) {
@@ -52,7 +55,7 @@ const GridComponent = ({cells, ships, game}) => {
         return (
           <div key={i}>
             <DropZone x={x} y={y} game={game} ships={ships}>
-              {shipName && <Ship shipName={shipName} ship={ship}/>}
+              {shipName && <Ship shipName={shipName} ship={ship} selectShip={selectShip}/>}
             </DropZone>
           </div>
         );
@@ -66,7 +69,7 @@ const GridComponent = ({cells, ships, game}) => {
         return(
             <div key={i}>
                 <DropZone x={x} y={y} game={game} >
-                    {shipName && <Ship shipName={shipName} ship={ship}/>}
+                    {shipName && <Ship shipName={shipName} ship={ship} selectShip={selectShip}/>}
                 </DropZone>
              </div>
         )
@@ -89,7 +92,7 @@ const GridComponent = ({cells, ships, game}) => {
     return ( 
         <>
         <div className='shipContainers'>
-            <button className="rotate">ROTATE</button>
+            <button className="rotate" onClick={rotateShip}>ROTATE</button>
             {otherSquares}
         </div>
         <div className='grid'>

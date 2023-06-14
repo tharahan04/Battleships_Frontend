@@ -9,6 +9,7 @@ const DropZone = ({x, y, game, children}) => {
     const [{ isOver }, drop] = useDrop(
         () => ({
           accept: ItemTypes.SHIP,
+          // canDrop: (item) => game.canDropShip(item.shipName, x, y),
           drop: (item) => {
             game.moveShip(item.shipName,x, y);
           },

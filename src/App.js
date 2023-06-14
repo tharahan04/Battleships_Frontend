@@ -145,6 +145,7 @@ function App() {
         cellsGridPlayerOne={cellsGridPlayerOne}
         cellsGridPlayerTwo={cellsGridPlayerTwo}
         shipsPlayerOne={shipsPlayerOne}
+        setShipsPlayerOne={setShipsPlayerOne}
         shipsPlayerTwo={shipsPlayerTwo}
         singlePlayer={singlePlayer}
         addGridToGame={addGridToGame}

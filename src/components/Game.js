@@ -10,12 +10,12 @@ export class Game {
 
     shipPositions = {};
 
-    // shipIsHorizontal = {};
+    // shipDirections = {};
 
     constructor(shipsPlayerOne) {
       shipsPlayerOne.forEach((ship, index) => {
       this.shipPositions[ship.name] = [-1, index];
-      // this.shipIsHorizontal[ship.name] = false;
+      // this.shipDirections[ship.name] = true;
       });
     }
     
@@ -36,8 +36,9 @@ export class Game {
       };
       this.emitChange()
     }
-    // canMoveKnight(toX, toY) {
-    //   const [x, y] = this.knightPosition
+
+    // canDropShip(shipName, toX, toY) {
+    //   const [x, y] = this.shipPosition
     //   const dx = toX - x
     //   const dy = toY - y
     //   return (
@@ -45,6 +46,17 @@ export class Game {
     //     (Math.abs(dx) === 1 && Math.abs(dy) === 2)
     //   )
     // }
+
+    // canDropShip(shipName, toX, toY, horizontal, size) {
+    //   const [x, y] = this.shipPositions[shipName];
+      
+    //   if (horizontal) {
+    //     return toX >= 0 && toX + size <= 8 && toY === y;
+    //   } else {
+    //     return toY >= 0 && toY + size <= 8 && toX === x;
+    //   }
+    // }
+
     emitChange() {
       const positions = this.shipPositions;
       this.observers.forEach((o) => o && o(positions));
