@@ -3,8 +3,12 @@ import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
 
-const DropZone = ({x, y, game, children, ships}) => {
+const DropZone = ({x, y, game, children, ships, cell, cells, setCells}) => {
 
+
+//  console.log(cell);
+
+console.log(cells);
        
 
     const [{ isOver }, drop] = useDrop(

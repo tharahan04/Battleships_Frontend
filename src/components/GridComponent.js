@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Ship from './Ship';
 import DropZone from './DropZone';
 
-const GridComponent = ({cells, ships, game, setShips}) => {
+const GridComponent = ({cells, ships, game, setShips, setCells}) => {
 
     const [shipPositions, setShipPositions] = useState(game.shipPositions);
     const [selectedShip, setSelectedShip] = useState(null);
@@ -52,9 +52,10 @@ const GridComponent = ({cells, ships, game, setShips}) => {
         const y = Math.floor(i / 8);
         const shipName = getShipNameAtPosition(x, y);
         const ship = getShipAtPosition(x, y);
+        const targetCell = cells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y)
         return (
           <div key={i}>
-            <DropZone x={x} y={y} game={game} ships={ships}>
+            <DropZone x={x} y={y} game={game} ships={ships} cell={targetCell} cells={cells} setCells={setCells}>
               {shipName && <Ship shipName={shipName} ship={ship} selectShip={selectShip}/>}
             </DropZone>
           </div>
@@ -66,9 +67,10 @@ const GridComponent = ({cells, ships, game, setShips}) => {
         const x = -1;
         const shipName = getShipNameAtPosition(x, y);
         const ship = getShipAtPosition(x, y);
+        const targetCell = cells.find(cell => cell.xCoordinate === x && cell.yCoordinate === y)
         return(
             <div key={i}>
-                <DropZone x={x} y={y} game={game} ships={ships}>
+                <DropZone x={x} y={y} game={game} ships={ships} cell={targetCell} cells={cells} setCells={setCells}>
                     {shipName && <Ship shipName={shipName} ship={ship} selectShip={selectShip}/>}
                 </DropZone>
              </div>
