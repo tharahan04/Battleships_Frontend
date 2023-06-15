@@ -40,7 +40,7 @@ const GameContainer = ({
   // const[targetCells, setTargetCells] = useState([]);
   // const[targetShip, setTargetShip] = useState({});
 
-  // setAvailableCells(cellsGridPlayerOne.filter(cell => cell.xCoordinate + cell.yCoordinate % 2 === 0));
+ 
 
   // const handleNameChange = (event) => {
   //     setNewPlayer(event.target.value);
@@ -53,9 +53,11 @@ const GameContainer = ({
   const handleStartGame = () => {
     if (singlePlayer) {
       handleStartGameSinglePlayer();
-      console.log(cellsGridPlayerOne);
     }
     setGameStarted(true);
+    const newAvailableCells = cellsGridPlayerOne.filter(cell => (cell.xCoordinate + cell.yCoordinate) % 2 === 0);
+    setAvailableCells(newAvailableCells);
+    console.log(availableCells);
   };
 
   const handleStartGameSinglePlayer = () => {
@@ -73,6 +75,8 @@ const GameContainer = ({
     const data = await response.json();
     const game = data.game;
     setGame(game);
+    setGridPlayerOne(game.grids[0]);
+    setGridPlayerTwo(game.grids[1]);
     setCellsGridPlayerOne(game.grids[0].cells);
     setCellsGridPlayerTwo(game.grids[1].cells);
   };
@@ -147,153 +151,160 @@ const GameContainer = ({
   //     return([upperCell, lowerCell]);
   // }
 
-  // const handleComputerTurn = () => {
-  //     let targetCell;
-  //     if(lastShotShipFirstHit.length === 0){
-  //         const random = Math.floor(Math.random() * availableCells.length);
-  //         targetCell = availableCells[random];
-  //         handleTurn(targetCell); //patch request we haven't written yet
-  //         if (targetCell.ship !== null){
-  //             setLastShotShipFirstHit(lastShotShipFirstHit.push(targetCell));
-  //             setSwitchDirection(switchDirection.push(false));
-  //         }
-  //     } else {
-  //         finishOffShip(lastShotShipFirstHit.slice(-1));
-  //         if (lastShotShipFirstHit.slice(-1).ship.hasSunk){
-  //             setLastShotShipFirstHit(lastShotShipFirstHit.slice(0, -1));
-  //             setLastShotShipSecondHit(lastShotShipSecondHit.slice(0, -1));
-  //             setSwitchDirection(switchDirection.slice(0,-1));
-  //         }
-  //     }
-  //     setAvailableCells(availableCells.filter(cell => cell !== targetCell));
-  // }
+  const handleComputerTurn = () => {
+      let targetCell;
+      if(lastShotShipFirstHit.length === 0){
+          const random = Math.floor(Math.random() * availableCells.length);
+          targetCell = availableCells[random];
+          handleTurn(targetCell);
+          console.log(targetCell);
+        //   console.log(availableCells);
 
-  // const finishOffShip = (cell) => {
-  //     let targetCell;
-  //     if(lastShotShipSecondHit.length === 0 || lastShotShipSecondHit.slice(-1).ship != cell.ship){
-  //         getNearbyCells(cell);
-  //         const random = Math.floor(Math.random() * nearbyCells.length);
-  //         targetCell = nearbyCells[random];
-  //         handleTurn(targetCell);
-  //         if(targetCell.ship !== null){
-  //             if(targetCell.ship === cell.ship){
-  //                 setLastShotShipSecondHit(lastShotShipSecondHit.push(targetCell));
-  //             } else {
-  //                 setLastShotShipFirstHit(lastShotShipFirstHit.push(targetCell));
-  //             }
-  //         }
-  //     } else {
-  //         if (!switchDirection.slice(-1)){
-  //             targetCell = getNextCell();
-  //             handleTurn(targetCell);
-  //             if(targetCell.ship === null){
-  //                 setSwitchDirection(switchDirection.slice(0, -1).push(true))
-  //             }
-  //         } else {
-  //             targetCell = getOppositeCell();
-  //             handleTurn(targetCell);
-  //         }
-  //     }
-  //     setAvailableCells(availableCells.filter(cell => cell !== targetCell));
-  // }
+          if (targetCell.ship !== null){
 
-  // const getNextCell = () => {
-  //     const x1 = lastShotShipFirstHit.slice(-1).xCoordinate;
-  //     const x2 = lastShotShipSecondHit.slice(-1).xCoordinate;
-  //     const y1 = lastShotShipFirstHit.slice(-1).yCoordinate;
-  //     const y2 = lastShotShipSecondHit.slice(-1).yCoordinate;
+              setLastShotShipFirstHit([...lastShotShipFirstHit, targetCell]);
+              setSwitchDirection(switchDirection.push(false));
+          }
+      } else {
+            console.log("lastShotShip", lastShotShipFirstHit);
+          finishOffShip(lastShotShipFirstHit.slice(-1));
+          if (lastShotShipFirstHit.slice(-1).ship.hasSunk){
+              setLastShotShipFirstHit(lastShotShipFirstHit.slice(0, -1));
+              setLastShotShipSecondHit(lastShotShipSecondHit.slice(0, -1));
+              setSwitchDirection(switchDirection.slice(0,-1));
+          }
+      }
+      const newAvailableCells =[...availableCells];
+      setAvailableCells(newAvailableCells.filter(cell => cell !== targetCell));
+  }
 
-  //     if (x2 - x1 === -1){
-  //         for(i = 1; i < 8; i++){
-  //             nextCell = getCellByCoordinate(x1 - i, y1)
-  //             if(!nextCell.hasBeenHit){
-  //                 return nextCell;
-  //             }
-  //         }
-  //     }
-  //     if (x2 - x1 === 1){
-  //         for(i = 1; i < 8; i++){
-  //             nextCell = getCellByCoordinate(x1 + i, y1)
-  //             if(!nextCell.hasBeenHit){
-  //                 return nextCell;
-  //             }
-  //         }
-  //     }
-  //     if (y2 - y1 === -1){
-  //         for(i = 1; i < 8; i++){
-  //             nextCell = getCellByCoordinate(x1, y1 - i)
-  //             if(!nextCell.hasBeenHit){
-  //                 return nextCell;
-  //             }
-  //         }
-  //     }
-  //     if (y2 - y1 === 1){
-  //         for(i = 1; i < 8; i++){
-  //             nextCell = getCellByCoordinate(x1, y1 + 1)
-  //             if(!nextCell.hasBeenHit){
-  //                 return nextCell;
-  //             }
-  //         }
-  //     }
-  // }
+  const finishOffShip = (cell) => {
+      let targetCell;
+      if(lastShotShipSecondHit.length === 0 || lastShotShipSecondHit.slice(-1).ship != cell.ship){
+          getNearbyCells(cell);
+          const random = Math.floor(Math.random() * nearbyCells.length);
+          targetCell = nearbyCells[random];
+          handleTurn(targetCell);
+          if(targetCell.ship !== null){
+              if(targetCell.ship === cell.ship){
+                  setLastShotShipSecondHit(lastShotShipSecondHit.push(targetCell));
+              } else {
+                  setLastShotShipFirstHit(lastShotShipFirstHit.push(targetCell));
+              }
+          }
+      } else {
+          if (!switchDirection.slice(-1)){
+              targetCell = getNextCell();
+              handleTurn(targetCell);
+              if(targetCell.ship === null){
+                  setSwitchDirection(switchDirection.slice(0, -1).push(true))
+              }
+          } else {
+              targetCell = getOppositeCell();
+              handleTurn(targetCell);
+          }
+      }
+      const newAvailableCells =[...availableCells];
+      setAvailableCells(newAvailableCells.filter(cell => cell !== targetCell));
+  }
 
-  // const getOppositeCell = () => {
-  //     const x1 = lastShotShipFirstHit.slice(-1).xCoordinate;
-  //     const x2 = lastShotShipSecondHit.slice(-1).xCoordinate;
-  //     const y1 = lastShotShipFirstHit.slice(-1).yCoordinate;
-  //     const y2 = lastShotShipSecondHit.slice(-1).yCoordinate;
+  const getNextCell = () => {
+      const x1 = lastShotShipFirstHit.slice(-1).xCoordinate;
+      const x2 = lastShotShipSecondHit.slice(-1).xCoordinate;
+      const y1 = lastShotShipFirstHit.slice(-1).yCoordinate;
+      const y2 = lastShotShipSecondHit.slice(-1).yCoordinate;
 
-  //     if (x2 - x1 === -1){
-  //         for(i = 1; i < 8; i++){
-  //             nextCell = getCellByCoordinate(x1 + i, y1)
-  //             if(!nextCell.hasBeenHit){
-  //                 return nextCell;
-  //             }
-  //         }
-  //     }
-  //     if (x2 - x1 === 1){
-  //         for(i = 1; i < 8; i++){
-  //             nextCell = getCellByCoordinate(x1 - i, y1)
-  //             if(!nextCell.hasBeenHit){
-  //                 return nextCell;
-  //             }
-  //         }
-  //     }
-  //     if (y2 - y1 === -1){
-  //         for(i = 1; i < 8; i++){
-  //             nextCell = getCellByCoordinate(x1, y1 + i)
-  //             if(!nextCell.hasBeenHit){
-  //                 return nextCell;
-  //             }
-  //         }
-  //     }
-  //     if (y2 - y1 === 1){
-  //         for(i = 1; i < 8; i++){
-  //             nextCell = getCellByCoordinate(x1, y1 - 1)
-  //             if(!nextCell.hasBeenHit){
-  //                 return nextCell;
-  //             }
-  //         }
-  //     }
-  // }
+      if (x2 - x1 === -1){
+          for(let i = 1; i < 8; i++){
+              const nextCell = getCellByCoordinate(x1 - i, y1)
+              if(!nextCell.hasBeenHit){
+                  return nextCell;
+              }
+          }
+      }
+      if (x2 - x1 === 1){
+          for(let i = 1; i < 8; i++){
+              const nextCell = getCellByCoordinate(x1 + i, y1)
+              if(!nextCell.hasBeenHit){
+                  return nextCell;
+              }
+          }
+      }
+      if (y2 - y1 === -1){
+          for(let i = 1; i < 8; i++){
+              const nextCell = getCellByCoordinate(x1, y1 - i)
+              if(!nextCell.hasBeenHit){
+                  return nextCell;
+              }
+          }
+      }
+      if (y2 - y1 === 1){
+          for(let i = 1; i < 8; i++){
+              const nextCell = getCellByCoordinate(x1, y1 + 1)
+              if(!nextCell.hasBeenHit){
+                  return nextCell;
+              }
+          }
+      }
+  }
 
-  // const getNearbyCells = (cell) => {
-  //     const xCoordinate = cell.xCoordinate;
-  //     const yCoordinate = cell.yCoordinate;
-  //     const upCell = getCellByCoordinate(xCoordinate, yCoordinate - 1);
-  //     const downCell = getCellByCoordinate(xCoordinate, yCoordinate + 1);
-  //     const leftCell = getCellByCoordinate(xCoordinate - 1, yCoordinate);
-  //     const rightCell = getCellByCoordinate(xCoordinate + 1, yCoordinate);
-  //     const nearbyCells = [upCell, downCell, leftCell, rightCell]; // need to test what happens if any of these are null
-  //     const filteredNearbyCells = nearbyCells.filter(cell => !cell.hasBeenHit);
-  //     setNearbyCells(filteredNearbyCells);
-  // }
+  const getOppositeCell = () => {
+      const x1 = lastShotShipFirstHit.slice(-1).xCoordinate;
+      const x2 = lastShotShipSecondHit.slice(-1).xCoordinate;
+      const y1 = lastShotShipFirstHit.slice(-1).yCoordinate;
+      const y2 = lastShotShipSecondHit.slice(-1).yCoordinate;
 
-  // const getCellByCoordinate = (xCoordinate, yCoordinate) => {
-  //     if(xCoordinate >= 0 && xCoordinate <= 7 && yCoordinate>= 0 && yCoordinate <= 7){
-  //         return availableCells.filter(cell => cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate)[0];
-  //     }
-  // }
+      if (x2 - x1 === -1){
+          for(let i = 1; i < 8; i++){
+              const nextCell = getCellByCoordinate(x1 + i, y1)
+              if(!nextCell.hasBeenHit){
+                  return nextCell;
+              }
+          }
+      }
+      if (x2 - x1 === 1){
+          for(let i = 1; i < 8; i++){
+              const nextCell = getCellByCoordinate(x1 - i, y1)
+              if(!nextCell.hasBeenHit){
+                  return nextCell;
+              }
+          }
+      }
+      if (y2 - y1 === -1){
+          for(let i = 1; i < 8; i++){
+              const nextCell = getCellByCoordinate(x1, y1 + i)
+              if(!nextCell.hasBeenHit){
+                  return nextCell;
+              }
+          }
+      }
+      if (y2 - y1 === 1){
+          for(let i = 1; i < 8; i++){
+              const nextCell = getCellByCoordinate(x1, y1 - 1)
+              if(!nextCell.hasBeenHit){
+                  return nextCell;
+              }
+          }
+      }
+  }
+
+  const getNearbyCells = (cell) => {
+      const xCoordinate = cell.xCoordinate;
+      const yCoordinate = cell.yCoordinate;
+      const upCell = getCellByCoordinate(xCoordinate, yCoordinate - 1);
+      const downCell = getCellByCoordinate(xCoordinate, yCoordinate + 1);
+      const leftCell = getCellByCoordinate(xCoordinate - 1, yCoordinate);
+      const rightCell = getCellByCoordinate(xCoordinate + 1, yCoordinate);
+      const nearbyCells = [upCell, downCell, leftCell, rightCell]; // need to test what happens if any of these are null
+      const filteredNearbyCells = nearbyCells.filter(cell => !cell.hasBeenHit);
+      setNearbyCells(filteredNearbyCells);
+  }
+
+  const getCellByCoordinate = (xCoordinate, yCoordinate) => {
+      if(xCoordinate >= 0 && xCoordinate <= 7 && yCoordinate>= 0 && yCoordinate <= 7){
+          return availableCells.filter(cell => cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate)[0];
+      }
+  }
 
   const game = useMemo(() => new Game(shipsPlayerOne), []);
 
@@ -365,8 +376,8 @@ const GameContainer = ({
     <>
     {gameStarted ? 
     <div className="game_page">
-        <CellGrid cells={cellsGridPlayerOne} handleTurn={handleTurn}/>
-        <CellGrid cells={cellsGridPlayerTwo} handleTurn={handleTurn}/>
+        <CellGrid cells={cellsGridPlayerOne} handleTurn={handleTurn} handleComputerTurn={handleComputerTurn}/>
+        <CellGrid cells={cellsGridPlayerTwo} handleTurn={handleTurn} handleComputerTurn={handleComputerTurn}/>
     </div> : 
     
     <>

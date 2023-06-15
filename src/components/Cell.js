@@ -1,9 +1,7 @@
 import { useState } from "react";
 import "../CSS/Cell.css";
 
-const Cell = ({cell, handleTurn}) => {
-
-    const [hasBeenHit, setHasBeenHit] = useState(false);
+const Cell = ({cell, handleTurn, handleComputerTurn}) => {
 
     const showShip = () => {
         if(cell.ship !== null){
@@ -13,13 +11,13 @@ const Cell = ({cell, handleTurn}) => {
         }
     }
 
-    const handleClick = ()=> {
-        handleTurn(cell);
-        setHasBeenHit(true);
+    const handleClick = async () => {
+        handleTurn(cell)
+        .then(handleComputerTurn())
     }
 
     const classNameStatus = () => {
-        if(hasBeenHit){
+        if(cell.hasBeenHit){
             if(cell.ship !== null){
                 return "cell_successful_hit"
             } else {

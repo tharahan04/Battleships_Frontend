@@ -23,7 +23,6 @@ function App() {
     const fetchShips = async () => {
       const response = await fetch("http://localhost:8080/ships");
       const data = await response.json();
-      console.log(data);
       const dataPlayerOne = data.filter((ship) => ship.playerOne);
       const dataPlayerTwo = data.filter((ship) => !ship.playerOne);
       setShipsPlayerOne(dataPlayerOne);
