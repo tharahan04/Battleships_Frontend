@@ -73,6 +73,8 @@ const GameContainer = ({
     const data = await response.json();
     const game = data.game;
     setGame(game);
+    setCellsGridPlayerOne(game.grids[0].cells);
+    setCellsGridPlayerTwo(game.grids[1].cells);
   };
 
   const resetGame = async () => {
