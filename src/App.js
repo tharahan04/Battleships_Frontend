@@ -131,12 +131,15 @@ function App() {
         gridPlayerOne={gridPlayerOne}
         setGridPlayerOne={setGridPlayerOne}
         gridPlayerTwo={gridPlayerTwo}
+        setGridPlayerTwo={setCellsGridPlayerTwo}
         cellsGridPlayerOne={cellsGridPlayerOne}
         setCellsGridPlayerOne={setCellsGridPlayerOne}
         cellsGridPlayerTwo={cellsGridPlayerTwo}
+        setCellsGridPlayerTwo={setCellsGridPlayerTwo}
         shipsPlayerOne={shipsPlayerOne}
         setShipsPlayerOne={setShipsPlayerOne}
         shipsPlayerTwo={shipsPlayerTwo}
+        setShipsPlayerTwo={setShipsPlayerOne}
         singlePlayer={singlePlayer}
         addGridToGame={addGridToGame}
         startGame={startGame}

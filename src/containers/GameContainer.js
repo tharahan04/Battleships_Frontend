@@ -10,12 +10,15 @@ const GameContainer = ({
   gridPlayerOne,
   setGridPlayerOne,
   gridPlayerTwo,
+  setGridPlayerTwo,
   cellsGridPlayerOne,
   setCellsGridPlayerOne,
   cellsGridPlayerTwo,
+  setCellsGridPlayerTwo,
   shipsPlayerOne,
   setShipsPlayerOne,
   shipsPlayerTwo,
+  setShipsPlayerTwo,
   singlePlayer,
   addGridToGame,
   startGame,
@@ -314,12 +317,12 @@ const GameContainer = ({
           <div className={!gameStarted ? "playertwonone" : "playertwo"}>
             <GridComponent
               setDisabled={setDisabled}
-              setShips={setShipsPlayerOne}
-              gridPlayerOne={gridPlayerOne}
-              setGridPlayerOne={setGridPlayerOne}
-              cells={cellsGridPlayerOne}
-              setCells={setCellsGridPlayerOne}
-              ships={shipsPlayerOne}
+              setShips={setShipsPlayerTwo}
+              grid={gridPlayerTwo}
+              setGrid={setGridPlayerTwo}
+              cells={cellsGridPlayerTwo}
+              setCells={setCellsGridPlayerTwo}
+              ships={shipsPlayerTwo}
               game={game}
             />
           </div>
