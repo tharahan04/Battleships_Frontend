@@ -58,6 +58,7 @@ const GameContainer = ({
   const handleStartGameSinglePlayer = () => {
     setComputerGrid();
     addGridToGame(gridPlayerOne);
+    addGridToGame(gridPlayerTwo);
     startGame();
   };
 
@@ -300,6 +301,9 @@ const GameContainer = ({
 
   const setComputerGrid = () => {
     const cells = [...cellsGridPlayerTwo];
+    // console.log("cells start:", cells);
+    // console.log("cellsGridPlayerTwo start:", cellsGridPlayerTwo);
+
     for(let ship of shipsPlayerTwo){
       const random = Math.floor(Math.random() * 2);
       if(random === 0){
@@ -321,9 +325,9 @@ const GameContainer = ({
             // console.log("celltoupdate:" ,cellToUpdate)
             // console.log(cellIndex);
             cells[cellIndex].ship = ship;
-            setCellsGridPlayerTwo(cells);
+            // setCellsGridPlayerTwo(cells);
         }
-      }else{
+       }else{
         const randomX = Math.floor(Math.random() * 8)
         const randomY = Math.floor(Math.random() * (9 - ship.size))
         for(let i = 0; i < ship.size; i++){
@@ -332,15 +336,24 @@ const GameContainer = ({
             })
             const cellIndex = cells.indexOf(cellToUpdate);
             cells[cellIndex].ship = ship;
-            setCellsGridPlayerTwo(cells);
-      }
+            // setCellsGridPlayerTwo(cells);
+        }
+        }
     }
-    const cellsFilled = cellsGridPlayerTwo.filter((cell) => cell.ship !== null);
+    const cellsFilled = cells.filter((cell) => cell.ship !== null);
+    console.log(cellsFilled.length);
     if (cellsFilled.length !== 17){
-      setComputerGrid();
+        // cells = [...cellsGridPlayerTwo];
+        for (let cell of cellsFilled){
+            cell.ship = null;
+        }
+        setComputerGrid();
+    }else{
+        setCellsGridPlayerTwo(cells);
+        // addGridToGame(gridPlayerTwo);
+        // console.log("cells end:", cells);
+        console.log("cellsFilled:", cellsFilled);
     }
-    addGridToGame(gridPlayerTwo);
-  }
 }
 
   return (
