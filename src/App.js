@@ -141,8 +141,10 @@ function App() {
       element: (
         <GameContainer 
         gridPlayerOne={gridPlayerOne}
+        setGridPlayerOne={setGridPlayerOne}
         gridPlayerTwo={gridPlayerTwo}
         cellsGridPlayerOne={cellsGridPlayerOne}
+        setCellsGridPlayerOne={setCellsGridPlayerOne}
         cellsGridPlayerTwo={cellsGridPlayerTwo}
         shipsPlayerOne={shipsPlayerOne}
         setShipsPlayerOne={setShipsPlayerOne}

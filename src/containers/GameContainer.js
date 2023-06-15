@@ -5,7 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Game } from "../components/Game";
 import { useMemo } from "react";
 
-const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsGridPlayerTwo, shipsPlayerOne, setShipsPlayerOne, shipsPlayerTwo, singlePlayer, addGridToGame, startGame, setGame}) => {
+const GameContainer = ({gridPlayerOne, setGridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, setCellsGridPlayerOne, cellsGridPlayerTwo, shipsPlayerOne, setShipsPlayerOne, shipsPlayerTwo, singlePlayer, addGridToGame, startGame, setGame}) => {
 
     const[newPlayer, setNewPlayer] = useState("");
 
@@ -42,7 +42,7 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
     const handleStartGameSinglePlayer = () => {
         addGridToGame(gridPlayerOne);
         // setGridPlayerTwo(randomGrid());
-        startGame();
+        // startGame();
     }
 
     const handleTurn = async (cell) => {
@@ -292,14 +292,16 @@ const GameContainer = ({gridPlayerOne, gridPlayerTwo, cellsGridPlayerOne, cellsG
                 <GridComponent 
                 setDisabled={setDisabled}
                 setShips={setShipsPlayerOne}
-                gridPlayerOne={gridPlayerOne} 
+                gridPlayerOne={gridPlayerOne}
+                setGridPlayerOne={setGridPlayerOne} 
                 cells={cellsGridPlayerOne} 
+                setCells={setCellsGridPlayerOne}
                 ships={shipsPlayerOne} 
                 game={game}
                 />
             </DndProvider>
             </div>
-            <button type="submit" disabled={disabled}>START</button>
+            <button type="submit" disabled={disabled} onClick={handleStartGame}>START</button>
         </>
      );
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Ship from './Ship';
 import DropZone from './DropZone';
 
-const GridComponent = ({cells, ships, game, setShips, setDisabled}) => {
+const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, setGridPlayerOne}) => {
 
     const [cellsCovered, setCellsCovered] = useState(null);
     const [shipPositions, setShipPositions] = useState(game.shipPositions);
@@ -125,16 +125,34 @@ const GridComponent = ({cells, ships, game, setShips, setDisabled}) => {
               array.findIndex((val) => val[0] === value[0] && val[1] === value[1]) === index
         );
         const filteredCellsSize = Object.keys(filteredCells).length;
-        console.log(filteredCells);
         setCellsCovered(coveredCells);
         if(filteredCellsSize === 17){
             setDisabled(false);
-            
-            console.log(cellsCovered);
+            editCells();
         } else {
             alert('ships are overlapping >:(')
             setDisabled(true);
         }
+    }
+
+    const editCells = () => {
+        const newCells = [...cells];
+        for (const shipName of Object.keys(shipPositions)) {
+            const [posX, posY] = shipPositions[shipName];
+            const ship = ships.find((ship) => ship.name === shipName);
+            let cellToUpdate;
+            for(let i = 0; i < ship.size; i++){
+                if(ship.horizontal){
+                    cellToUpdate = newCells.find((cell) => cell.xCoordinate === posX + i && cell.yCoordinate === posY);
+                } else {
+                    cellToUpdate = newCells.find((cell) => cell.xCoordinate === posX && cell.yCoordinate === posY + i);
+                }
+                const cellIndex = newCells.indexOf(cellToUpdate);
+                newCells[cellIndex].ship = ship;
+                setCells(newCells);
+            }
+            
+        }    
     }
 
 
