@@ -13,19 +13,19 @@ const MultiplayerModal = ({ multiplayerEnabled, postGame, numberOfUsers }) => {
     setIsOpen(!isOpen);
     if (!isOpen) {
       multiplayerEnabled();
-    }
+    } 
   };
 
   useEffect(() => {
-    if (numberOfUsers === 2) {
+    if(numberOfUsers === 2) {
       setDisabled(false);
     } 
     setDisabled(true);
   }, [numberOfUsers]);
 
   const handleClick = () => {
-    postGame(true);
     navigate("/game");
+    postGame(true);
   };
 
   return (

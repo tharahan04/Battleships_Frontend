@@ -102,7 +102,7 @@ function App() {
     let message = payloadData.body;
     if (typeof message === "number") {
       setNumberOfUsers(message);
-    }
+    } 
     // else to handle the game logic
   };
 

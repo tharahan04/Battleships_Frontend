@@ -51,7 +51,6 @@ const GameContainer = ({
   useEffect(() => {
     setGameFinished(!gameFinished);
   }, [game.finished]);
-  console.log(game.finished);
 
   const handleStartGame = () => {
     if (singlePlayer) {
@@ -417,7 +416,6 @@ const GameContainer = ({
       }
     }
     const cellsFilled = cells.filter((cell) => cell.ship !== null);
-    console.log(cellsFilled.length);
     if (cellsFilled.length !== 17) {
       // cells = [...cellsGridPlayerTwo];
       for (let cell of cellsFilled) {

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../CSS/Cell.css";
 
 const Cell = ({ cell, handleTurn, handleComputerTurn }) => {
@@ -27,10 +26,17 @@ const Cell = ({ cell, handleTurn, handleComputerTurn }) => {
     }
   };
 
+  const hideShips = () => {
+    if(cell.id >= 64){
+      return "hidden_ships"
+    }
+    return"Tharahan"
+  }
+
+
   return (
     <div className={classNameStatus()} onClick={handleClick}>
-      <p>{showShip() ? cell.ship.id : null}</p>
-      {/* <p>{cell.id}</p> */}
+      <p className={hideShips()}>{showShip() ? cell.ship.id : null}</p>
     </div>
   );
 };
