@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Ship from './Ship';
 import DropZone from './DropZone';
+import "../CSS/Grid.css";
 
 const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, setGridPlayerOne}) => {
 
@@ -160,6 +161,8 @@ const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, set
         <>
         <div className='shipContainers'>
             <button className="rotate" onClick={rotateShip}>ROTATE</button>
+            </div>
+        <div className='ships'>
             {otherSquares}
             <button className="checkGrid" onClick={checkGrid}>CHECK GRID</button>
         </div>

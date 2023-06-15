@@ -1,0 +1,6 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(8, 50px); /* Creates 8 equal-width columns */
+    /* Adds a gap of 5px between cells */
+    justify-content: space-between;
+  }

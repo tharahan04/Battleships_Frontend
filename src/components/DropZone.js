@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
+import "../CSS/DropZone.css";
 
 
 const DropZone = ({x, y, game, children, ships}) => {

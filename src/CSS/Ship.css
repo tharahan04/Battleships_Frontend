@@ -1,0 +1,25 @@
+/* .ship {
+    width: 50px; 
+    height: 50px;
+    background-color: blue; 
+    border: 1px solid #000; 
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    cursor: move; 
+  }   */
+
+  .ships{
+    justify-self: center;
+    align-items: center;
+    justify-items: center;
+    flex-direction: flex-start;
+  }
+
+  .shipContainers{
+    /* display: grid;
+    grid-template-columns: 50% 50%; */
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }

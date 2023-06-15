@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap');
+
+
+
+.setupGrid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    /* justify-content: space-evenly; */
+  }
+
+  h2{
+    color:white;
+    font-family: Teko ;
+    font-size: 200%;
+  }
+
+  h4{
+    color: white;
+    font-family: Teko ;
+    font-size: 175%;
+  }
+
+  #startbutton{
+    background-color: rgb(49, 51, 49);
+    color: white;
+  }
+  
+  #startbutton:hover{
+    background-color: rgb(6, 204, 6);
+  }
+
+  .playertwonone{
+    display: none;
+  }
+  
+
+  .playerone{
+    display:flex;
+    
+  }
+
+  
+
+
+

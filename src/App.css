@@ -1,51 +1,19 @@
-.dropzone {
-  width: 50px; /* Adjust the width and height as needed */
-  height: 50px;
-  /* border: 1px solid #000; */
-  box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 1);
-
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
+body {
+  background-color: #111112;
+  text-align: center;
 }
 
-.highlight {
-  background-color: yellow; /* Change the background color when a ship is dragged over the cell */
+h1 {
+  font-size: 350%;
 }
 
-/* .ship {
-  width: 50px;
-  height: 100px;
-  background-color: blue; 
-  border: 1px solid #000; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: move; 
-} */
-
-.ship p {
-  /* width: 100%;
-  margin: 0;  */
+h1 a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  letter-spacing: 1px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(8, 50px); /* Creates 8 equal-width columns */
-  /* Adds a gap of 5px between cells */
-}
-
-.setupGrid{
-  display:flex;
-  justify-content: space-around;
-  /* display: grid;
-  grid-template-columns: 50% 50%; */
-}
-
-.shipContainers{
-  /* display: grid;
-  grid-template-columns: 50% 50%; */
-  display:flex;
-  flex-direction: column;
-  justify-content: space-around;
+h1 a:hover {
+  color: red;
 }
