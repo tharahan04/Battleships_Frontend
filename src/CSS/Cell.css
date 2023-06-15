@@ -1,0 +1,10 @@
+.cell {
+    width: 50px; /* Adjust the width and height as needed */
+    height: 50px;
+    /* border: 1px solid #fefffe;  */
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 1);
+    background-color: white;
+  }

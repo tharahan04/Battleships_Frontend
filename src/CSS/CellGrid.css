@@ -1,0 +1,5 @@
+.cellGrid {
+    display: grid;
+    grid-template-columns: repeat(8, 50px); /* Adjust the width as needed */
+    /* grid-gap: 5px; */
+}

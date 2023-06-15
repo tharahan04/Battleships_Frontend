@@ -5,6 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Game } from "../components/Game";
 import { useMemo } from "react";
 import "../CSS/GameContainer.css";
+import CellGrid from "../components/CellGrid";
 
 const GameContainer = ({
   gridPlayerOne,
@@ -52,7 +53,9 @@ const GameContainer = ({
   const handleStartGame = () => {
     if (singlePlayer) {
       handleStartGameSinglePlayer();
+      console.log(cellsGridPlayerOne);
     }
+    setGameStarted(true);
   };
 
   const handleStartGameSinglePlayer = () => {
@@ -63,7 +66,7 @@ const GameContainer = ({
   };
 
   const handleTurn = async (cell) => {
-    const response = await fetch(`http://localhost:8080/1?cellId=${cell.id}`, {
+    const response = await fetch(`http://localhost:8080/games/1?cellId=${cell.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
     });
@@ -81,9 +84,9 @@ const GameContainer = ({
     setGame(data);
   };
 
-  const handleStartGameButton = () => {
-    setGameStarted(true);
-  };
+//   const handleStartGameButton = () => {
+//     setGameStarted(true);
+//   };
 
   // const handleComputerTurn2 = () =>{
   //     let targetCell;
@@ -358,11 +361,17 @@ const GameContainer = ({
 
   return (
     <>
+    {gameStarted ? 
+    <div className="game_page">
+        <CellGrid cells={cellsGridPlayerOne} handleTurn={handleTurn}/>
+        <CellGrid cells={cellsGridPlayerTwo} handleTurn={handleTurn}/>
+    </div> : 
+    
+    <>
       <h2> SET UP YOUR SHIPS </h2>
       <h4> Drag & Drop the ships on to the map </h4>
 
-      {/* {mapShips} */}
-      {/* <input type="text" placeholder="Enter user name" value={newPlayer} onChange={handleNameChange} /> */}
+      
       <div className="setupGrid">
         <DndProvider backend={HTML5Backend}>
           <div className="playerone">
@@ -400,6 +409,8 @@ const GameContainer = ({
       >
         START
       </button>
+      </>
+      }
     </>
   );
 };
