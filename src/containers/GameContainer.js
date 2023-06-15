@@ -56,8 +56,8 @@ const GameContainer = ({
   };
 
   const handleStartGameSinglePlayer = () => {
+    setComputerGrid();
     addGridToGame(gridPlayerOne);
-    // setGridPlayerTwo(randomGrid());
     startGame();
   };
 
@@ -290,7 +290,58 @@ const GameContainer = ({
   // }
 
   const game = useMemo(() => new Game(shipsPlayerOne), []);
-  console.log(gameStarted);
+
+  const rotateShip = (ship) => {
+            const shipIndex = shipsPlayerTwo.indexOf(ship);
+            const updatedShips = [...shipsPlayerTwo];
+            updatedShips[shipIndex].horizontal = !updatedShips[shipIndex].horizontal;
+            setShipsPlayerTwo(updatedShips);
+  }
+
+  const setComputerGrid = () => {
+    const cells = [...cellsGridPlayerTwo];
+    for(let ship of shipsPlayerTwo){
+      const random = Math.floor(Math.random() * 2);
+      if(random === 0){
+        rotateShip(ship)
+      }
+    }
+    for(let ship of shipsPlayerTwo){
+      if(ship.horizontal){
+        const randomX = Math.floor(Math.random() * (9 - ship.size))
+        const randomY = Math.floor(Math.random() * 8)
+        // console.log("X", randomX);
+        // console.log("Y", randomY);
+        for(let i = 0; i < ship.size; i++){
+            const cellToUpdate = cells.find((cell) => {
+              return cell.xCoordinate === randomX + i && cell.yCoordinate === randomY;
+            })
+            const cellIndex = cells.indexOf(cellToUpdate);
+            // console.log("Cells", cells)
+            // console.log("celltoupdate:" ,cellToUpdate)
+            // console.log(cellIndex);
+            cells[cellIndex].ship = ship;
+            setCellsGridPlayerTwo(cells);
+        }
+      }else{
+        const randomX = Math.floor(Math.random() * 8)
+        const randomY = Math.floor(Math.random() * (9 - ship.size))
+        for(let i = 0; i < ship.size; i++){
+            const cellToUpdate = cells.find((cell) => {
+              return cell.xCoordinate === randomX && cell.yCoordinate === randomY + i;
+            })
+            const cellIndex = cells.indexOf(cellToUpdate);
+            cells[cellIndex].ship = ship;
+            setCellsGridPlayerTwo(cells);
+      }
+    }
+    const cellsFilled = cellsGridPlayerTwo.filter((cell) => cell.ship !== null);
+    if (cellsFilled.length !== 17){
+      setComputerGrid();
+    }
+    addGridToGame(gridPlayerTwo);
+  }
+}
 
   return (
     <>
