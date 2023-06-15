@@ -139,7 +139,7 @@ function App() {
         shipsPlayerOne={shipsPlayerOne}
         setShipsPlayerOne={setShipsPlayerOne}
         shipsPlayerTwo={shipsPlayerTwo}
-        setShipsPlayerTwo={setShipsPlayerOne}
+        setShipsPlayerTwo={setShipsPlayerTwo}
         singlePlayer={singlePlayer}
         addGridToGame={addGridToGame}
         startGame={startGame}
