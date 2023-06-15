@@ -11,9 +11,9 @@ const Cell = ({cell, handleTurn, handleComputerTurn}) => {
         }
     }
 
-    const handleClick = async () => {
+    const handleClick =  () => {
         handleTurn(cell)
-        .then(handleComputerTurn())
+        handleComputerTurn();
     }
 
     const classNameStatus = () => {
