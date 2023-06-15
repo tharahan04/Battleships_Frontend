@@ -37,7 +37,12 @@
 
   .playerone{
     display:flex;
-    
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .playerone > * {
+  flex-basis: 12.5%;
   }
 
   
