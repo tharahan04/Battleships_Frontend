@@ -2,7 +2,7 @@ import { ItemTypes } from "./ItemTypes";
 import { useDrag } from "react-dnd";
 import "../CSS/Ship.css";
 
-const Ship = ({shipName, ship, selectShip, rotateShip}) => {
+const Ship = ({shipName, ship, selectShip}) => {
 
     
     

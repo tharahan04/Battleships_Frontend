@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GridComponent from "../components/GridComponent";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -24,15 +24,18 @@ const GameContainer = ({
   addGridToGame,
   startGame,
   setGame,
+  game,
 }) => {
-  const [newPlayer, setNewPlayer] = useState("");
+  const [gameStarted, setGameStarted] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [availableCells, setAvailableCells] = useState([]);
+  const [gameFinished, setGameFinished] = useState(false);
+
+  const [newPlayer, setNewPlayer] = useState("");
   const [nearbyCells, setNearbyCells] = useState([]);
   const [lastShotShipFirstHit, setLastShotShipFirstHit] = useState([]);
   const [lastShotShipSecondHit, setLastShotShipSecondHit] = useState([]);
   const [switchDirection, setSwitchDirection] = useState([]);
-  const [gameStarted, setGameStarted] = useState(false);
   const [hitCellsNotSunk, setHitCellsNotSunk] = useState([]);
   const [targetCells, setTargetCells] = useState([]);
   const [targetShip, setTargetShip] = useState({});
@@ -45,6 +48,11 @@ const GameContainer = ({
   //     // map ships here after
   // }
 
+  useEffect(() => {
+    setGameFinished(!gameFinished);
+  }, [game.finished]);
+  console.log(game.finished);
+
   const handleStartGame = () => {
     if (singlePlayer) {
       handleStartGameSinglePlayer();
@@ -54,7 +62,6 @@ const GameContainer = ({
       (cell) => (cell.xCoordinate + cell.yCoordinate) % 2 === 0
     );
     setAvailableCells(newAvailableCells);
-    console.log(availableCells);
   };
 
   const handleStartGameSinglePlayer = () => {
@@ -175,7 +182,7 @@ const GameContainer = ({
   // };
   // }
 
-  const handleComputerTurn =() => {
+  const handleComputerTurn = () => {
     const random = Math.floor(Math.random() * cellsGridPlayerOne.length);
     const targetCell = cellsGridPlayerOne[random];
     setTimeout(() => {
@@ -344,8 +351,8 @@ const GameContainer = ({
       );
     } else {
       // skip over cell
-      return null
-    };
+      return null;
+    }
   };
 
   const getAvailableCellByCoordinate = (xCoordinate, yCoordinate) => {
@@ -362,7 +369,7 @@ const GameContainer = ({
     } else return null;
   };
 
-  const game = useMemo(() => new Game(shipsPlayerOne), []);
+  const memory = useMemo(() => new Game(shipsPlayerOne), []);
 
   const rotateShip = (ship) => {
     const shipIndex = shipsPlayerTwo.indexOf(ship);
@@ -437,6 +444,7 @@ const GameContainer = ({
             handleTurn={handleTurn}
             handleComputerTurn={handleComputerTurn}
           />
+          {gameFinished ? "GAME OVER" : ""}
         </div>
       ) : (
         <>
@@ -454,7 +462,7 @@ const GameContainer = ({
                   cells={cellsGridPlayerOne}
                   setCells={setCellsGridPlayerOne}
                   ships={shipsPlayerOne}
-                  game={game}
+                  memory={memory}
                 />
               </div>
 
@@ -467,7 +475,7 @@ const GameContainer = ({
                   cells={cellsGridPlayerTwo}
                   setCells={setCellsGridPlayerTwo}
                   ships={shipsPlayerTwo}
-                  game={game}
+                  memory={memory}
                 />
               </div>
             </DndProvider>

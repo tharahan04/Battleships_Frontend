@@ -3,14 +3,14 @@ import Ship from './Ship';
 import DropZone from './DropZone';
 import "../CSS/Grid.css";
 
-const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, grid, setGrid}) => {
+const GridComponent = ({cells, setCells, ships, memory, setShips, setDisabled, grid, setGrid}) => {
 
     const [cellsCovered, setCellsCovered] = useState(null);
-    const [shipPositions, setShipPositions] = useState(game.shipPositions);
+    const [shipPositions, setShipPositions] = useState(memory.shipPositions);
     const [selectedShip, setSelectedShip] = useState(null);
     const [canStart, setCanStart] = useState(false);
 
-    useEffect(() => game.observe(setShipPositions), [game]);
+    useEffect(() => memory.observe(setShipPositions), [memory]);
     
 
     const selectShip = (ship) => {
@@ -18,7 +18,7 @@ const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, gri
     }
 
     const canRotate = (ship) => {
-        const shipsPosition = game.shipPositions[ship.name];
+        const shipsPosition = memory.shipPositions[ship.name];
         const x = shipsPosition[0];
         const y = shipsPosition[1];
         if (ship.horizontal){
@@ -71,7 +71,7 @@ const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, gri
         const ship = getShipAtPosition(x, y);
         return (
           <div key={i}>
-            <DropZone x={x} y={y} game={game} ships={ships}>
+            <DropZone x={x} y={y} memory={memory} ships={ships}>
               {shipName && <Ship shipName={shipName} ship={ship} selectShip={selectShip}/>}
             </DropZone>
           </div>
@@ -85,7 +85,7 @@ const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, gri
         const ship = getShipAtPosition(x, y);
         return(
             <div key={i}>
-                <DropZone x={x} y={y} game={game} ships={ships}>
+                <DropZone x={x} y={y} memory={memory} ships={ships}>
                     {shipName && <Ship shipName={shipName} ship={ship} selectShip={selectShip}/>}
                 </DropZone>
              </div>
