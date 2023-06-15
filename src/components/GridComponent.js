@@ -3,7 +3,7 @@ import Ship from './Ship';
 import DropZone from './DropZone';
 import "../CSS/Grid.css";
 
-const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, setGridPlayerOne}) => {
+const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, grid, setGrid}) => {
 
     const [cellsCovered, setCellsCovered] = useState(null);
     const [shipPositions, setShipPositions] = useState(game.shipPositions);
