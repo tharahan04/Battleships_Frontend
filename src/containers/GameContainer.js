@@ -130,6 +130,34 @@ console.log(singlePlayer)
   //       if (targetCell.ship !== targetShip) {
   //         setHitCellsNotSunk([...hitCellsNotSunk, targetCell]);
   //       } else if (!targetShip.hasSunk) {
+  //         console.log("targetCells2", adjacentCells(targetShip))
+  //         setTargetCells(adjacentCells(targetShip));
+  //       } else {
+  //         setHitCellsNotSunk(
+  //           hitCellsNotSunk.filter((cell) => cell.ship !== targetShip)
+  //         );
+  //         if (hitCellsNotSunk != []) {
+  //           const random = Math.floor(Math.random() * hitCellsNotSunk.length);
+  //           const nextCell = hitCellsNotSunk[random];
+  //           console.log("targetCells3", nearbyCells(targetShip))
+  //           setTargetCells(nearbyCells(nextCell));
+  //           setTargetShip(nextCell.ship);
+  //         }
+  //       }
+  //     }
+  //     const newTargetCells = [...targetCells]
+  //     newTargetCells.splice(random, 1);
+  //     setTargetCells(newTargetCells);
+  //   }
+  //   setAvailableCells(availableCells.filter((cell) => !cell.hasBeenHit));
+  // };
+
+
+
+  //     if (targetCell.ship !== null) {
+  //       if (targetCell.ship !== targetShip) {
+  //         setHitCellsNotSunk([...hitCellsNotSunk, targetCell]);
+  //       } else if (!targetShip.hasSunk) {
   //         // console.log("targetCells2", adjacentCells(targetShip))
   //         setTargetCells(adjacentCells(targetShip));
   //       } else {
