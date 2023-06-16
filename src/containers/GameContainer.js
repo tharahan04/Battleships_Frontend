@@ -112,35 +112,39 @@ const GameContainer = ({
       console.log("targetCells", targetCells);
       const random = Math.floor(Math.random() * targetCells.length);
       targetCell = targetCells[random];
-      targetCell = await handleTurn(targetCell);
-      console.log("targetCellAfterHit",targetCell);
-
+      targetCell = await handleTurn(targetCell)
+      
       if (targetCell.ship === null){
         let newTargetCells = [...targetCells];
         newTargetCells = newTargetCells.filter(cell => cell.id !== targetCell.id);
-        setTargetCells(newTargetCells);
+        setTargetCells([...newTargetCells]);
       } 
-      else if (targetCell.ship !== targetShip){
+      else if (targetCell.ship.id !== targetShip.id){
+        console.log("hit ship not targetShip", targetCell.ship);
         setHitCellsNotSunk([...hitCellsNotSunk, targetCell]);
         let newTargetCells = [...targetCells];
         newTargetCells = newTargetCells.filter((cell) => cell.id !== targetCell.id);
-        setTargetCells(newTargetCells);
+        setTargetCells([...newTargetCells]);
       }
       else if(!targetCell.ship.hasSunk){
+        console.log("hit targetShip not sunk", targetCell.ship);
         setHitCellsNotSunk([...hitCellsNotSunk, targetCell]);
         let newTargetCells = adjacentCells(targetShip);
-        console.log("adjacentCells", newTargetCells);
+        newTargetCells = newTargetCells.filter(cell => cell !== null);
+        newTargetCells = newTargetCells.filter(cell => !cell.hasBeenHit);
         newTargetCells = newTargetCells.filter((cell) => cell.id !== targetCell.id);
-        setTargetCells(newTargetCells);
+        console.log("adjacentCellsCalled", newTargetCells);
+        setTargetCells([...newTargetCells]);
       }
       else{
+        console.log("hit targetShip has sunk", targetCell.ship);
         let newHitCellsNotSunk = [...hitCellsNotSunk];
-        newHitCellsNotSunk.filter((cell) => cell.ship !== targetShip);
-        setHitCellsNotSunk(newHitCellsNotSunk);
+        newHitCellsNotSunk.filter((cell) => cell.ship.id !== targetShip.id);
+        setHitCellsNotSunk([...newHitCellsNotSunk]);
         if(newHitCellsNotSunk.length != 0){
           const random = Math.floor(Math.random() * hitCellsNotSunk.length);
           const nextCell = hitCellsNotSunk[random];
-          setTargetCells(getNearbyCells(nextCell));
+          setTargetCells([...getNearbyCells(nextCell)]);
           setTargetShip(nextCell.ship);
         }
       }
@@ -151,7 +155,7 @@ const GameContainer = ({
 }
 
   const adjacentCells = (ship) => {
-    const listOfCells = hitCellsNotSunk.filter((cell) => cell.ship === ship);
+    const listOfCells = [...hitCellsNotSunk].filter((cell) => cell.ship.id === ship.id);
     const xCoordinates = listOfCells.map((cell) => cell.xCoordinate);
     const yCoordinates = listOfCells.map((cell) => cell.yCoordinate);
     let upperCellXcoordinate;
@@ -167,7 +171,7 @@ const GameContainer = ({
       upperCellYcoordinate = yCoordinates[0];
       upperCellXcoordinate = Math.max(xCoordinates) + 1;
       lowerCellYcoordinate = yCoordinates[0];
-      lowerCellXcoordinate = Math.max(xCoordinates) - 1;
+      lowerCellXcoordinate = Math.min(xCoordinates) - 1;
     }
     const upperCell = getCellByCoordinate(
       upperCellXcoordinate,
@@ -177,7 +181,7 @@ const GameContainer = ({
       lowerCellXcoordinate,
       lowerCellYcoordinate
     );
-    console.log("adjacentCells", [upperCell, lowerCell]);
+    console.log("adjacentCellsFunction", [upperCell, lowerCell]);
     return [upperCell, lowerCell];
   };
 
@@ -200,7 +204,7 @@ const GameContainer = ({
     let nearCells = [upCell, downCell, leftCell, rightCell]; 
     nearCells = nearCells.filter(cell => cell!== null);
     nearCells = nearCells.filter((cell) => !cell.hasBeenHit);
-    console.log("nearbyCells", nearCells);
+    console.log("nearbyCellsFunction", nearCells);
     return nearCells;
   };
 
