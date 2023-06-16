@@ -19,3 +19,11 @@
     background-color: purple;
 }
 
+.cell_successful_hit > .hidden_ships {
+    color: red;
+}
+
+.hidden_ships{
+    color: white;
+}
+
