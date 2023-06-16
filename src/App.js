@@ -17,12 +17,15 @@ function App() {
   const [singlePlayer, setSinglePlayer] = useState(false);
   const [connectToMultiplayer, setConnectToMultiplayer] = useState(false);
   const [numberOfUsers, setNumberOfUsers] = useState(0);
+  const [playerOne, setPlayerOne] = useState(null);
+  const [playerTwo, setPlayerTwo] = useState(null);
   let socketClient = null;
 
   useEffect(() => {
     const fetchShips = async () => {
       const response = await fetch("http://localhost:8080/ships");
       const data = await response.json();
+      console.log(data);
       const dataPlayerOne = data.filter((ship) => ship.playerOne);
       const dataPlayerTwo = data.filter((ship) => !ship.playerOne);
       setShipsPlayerOne(dataPlayerOne);
@@ -43,7 +46,6 @@ function App() {
     const updatedGame = await fetch(`http://localhost:8080/games`);
     const updatedData = await updatedGame.json();
     setGame(updatedData);
-
     let gridOddNumber;
     let gridEvenNumber;
     updatedData.grids[0].id % 2 === 0
@@ -76,6 +78,7 @@ function App() {
     });
     const data = await response.json();
     setGame(data);
+    setPlayerOne(true)
   };
 
   const resetGame = async () => {
@@ -102,6 +105,12 @@ function App() {
     let message = payloadData.body;
     if (typeof message === "number") {
       setNumberOfUsers(message);
+    if (numberOfUsers === 1){
+      setPlayerOne(game.grids[0])
+    }else{
+      console.log(game)
+      setPlayerTwo(game.grids[1])
+    }
     }
     // else to handle the game logic
   };
@@ -120,6 +129,9 @@ function App() {
           multiplayerEnabled={multiplayerEnabled}
           postGame={postGame}
           numberOfUsers={numberOfUsers}
+          singlePlayer={singlePlayer}
+          
+          game={game}
         />
       ),
     },
@@ -143,6 +155,7 @@ function App() {
         addGridToGame={addGridToGame}
         startGame={startGame}
         setGame={setGame}
+        playerOne={playerOne}
         />
       ),
     },
