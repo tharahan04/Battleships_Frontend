@@ -5,7 +5,6 @@ import "../CSS/Ship.css";
 const Ship = ({shipName, ship, selectShip, rotateShip}) => {
 
     
-    
     const [{isDragging}, drag] = useDrag(() => ({
         type: ItemTypes.SHIP,
         item: { shipName },

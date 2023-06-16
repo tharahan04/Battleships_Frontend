@@ -13,7 +13,7 @@ const Cell = ({cell, handleTurn, handleComputerTurn}) => {
 
     const handleClick =  () => {
         handleTurn(cell)
-        handleComputerTurn();
+        // handleComputerTurn();
     }
 
     const classNameStatus = () => {

@@ -148,6 +148,7 @@ const GridComponent = ({cells, setCells, ships, game, setShips, setDisabled, gri
                 } else {
                     cellToUpdate = newCells.find((cell) => cell.xCoordinate === posX && cell.yCoordinate === posY + i);
                 }
+                console.log("cells", newCells)
                 const cellIndex = newCells.indexOf(cellToUpdate);
                 newCells[cellIndex].ship = ship;
                 setCells(newCells);

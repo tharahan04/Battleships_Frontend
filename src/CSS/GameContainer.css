@@ -30,8 +30,8 @@
     background-color: rgb(6, 204, 6);
   }
 
-  .playertwonone{
-    display: none;
+  .playertwo{
+    display: flex;
   }
   
 

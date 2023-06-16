@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GridComponent from "../components/GridComponent";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -24,6 +24,8 @@ const GameContainer = ({
   addGridToGame,
   startGame,
   setGame,
+  getGame,
+  playerOne
 }) => {
   const [newPlayer, setNewPlayer] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -44,7 +46,7 @@ const GameContainer = ({
   // const mapShips = () => {
   //     // map ships here after
   // }
-
+console.log(singlePlayer)
   const handleStartGame = () => {
     if (singlePlayer) {
       handleStartGameSinglePlayer();
@@ -55,6 +57,11 @@ const GameContainer = ({
     );
     setAvailableCells(newAvailableCells);
     console.log(availableCells);
+    if(!singlePlayer){
+      addGridToGame(gridPlayerOne);
+      addGridToGame(gridPlayerTwo);
+      startGame();
+    }
   };
 
   const handleStartGameSinglePlayer = () => {
@@ -94,86 +101,87 @@ const GameContainer = ({
   //     setGameStarted(true);
   //   };
 
-  const handleComputerTurn = () => {
-    let targetCell;
-    console.log("targetCells", targetCells)
-    if (targetCells.length === 0) {
-      const random = Math.floor(Math.random() * availableCells.length);
-      targetCell = availableCells[random];
+  // const handleComputerTurn = () => {
+  //   let targetCell;
+  //   console.log("targetCells", targetCells)
+  //   console.log(targetCell);
+  //   if (targetCells.length === 0) {
+  //     const random = Math.floor(Math.random() * availableCells.length);
+  //     targetCell = availableCells[random];
 
-      setTimeout(() => {
-        handleTurn(targetCell);
-      }, 1000);
+  //     setTimeout(() => {
+  //       handleTurn(targetCell);
+  //     }, 1000);
 
-      if (targetCell.ship !== null) {
-        setHitCellsNotSunk([targetCell]);
-        setTargetCells(getNearbyCells(targetCell));
-        setTargetShip(targetCell.ship);
-      }
-    } else {
-      const random = Math.floor(Math.random() * targetCells.length);
-      targetCell = targetCells[random];
+  //     if (targetCell.ship !== null) {
+  //       setHitCellsNotSunk([targetCell]);
+  //       setTargetCells(getNearbyCells(targetCell));
+  //       setTargetShip(targetCell.ship);
+  //     }
+  //   } else {
+  //     const random = Math.floor(Math.random() * targetCells.length);
+  //     targetCell = targetCells[random];
 
-      setTimeout(() => {
-        handleTurn(targetCell);
-      }, 1000);
+  //     setTimeout(() => {
+  //       handleTurn(targetCell);
+  //     }, 1000);
 
-      if (targetCell.ship !== null) {
-        if (targetCell.ship !== targetShip) {
-          setHitCellsNotSunk([...hitCellsNotSunk, targetCell]);
-        } else if (!targetShip.hasSunk) {
-          // console.log("targetCells2", adjacentCells(targetShip))
-          setTargetCells(adjacentCells(targetShip));
-        } else {
-          setHitCellsNotSunk(
-            hitCellsNotSunk.filter((cell) => cell.ship !== targetShip)
-          );
-          if (hitCellsNotSunk != []) {
-            const random = Math.floor(Math.random() * hitCellsNotSunk.length);
-            const nextCell = hitCellsNotSunk[random];
-            console.log("targetCells3", nearbyCells(targetShip))
-            setTargetCells(nearbyCells(nextCell));
-            setTargetShip(nextCell.ship);
-          }
-        }
-      }
-      const newTargetCells = [...targetCells]
-      newTargetCells.splice(random, 1);
-      setTargetCells(newTargetCells);
-    }
-    setAvailableCells(availableCells.filter((cell) => !cell.hasBeenHit));
-  };
+  //     if (targetCell.ship !== null) {
+  //       if (targetCell.ship !== targetShip) {
+  //         setHitCellsNotSunk([...hitCellsNotSunk, targetCell]);
+  //       } else if (!targetShip.hasSunk) {
+  //         // console.log("targetCells2", adjacentCells(targetShip))
+  //         setTargetCells(adjacentCells(targetShip));
+  //       } else {
+  //         setHitCellsNotSunk(
+  //           hitCellsNotSunk.filter((cell) => cell.ship !== targetShip)
+  //         );
+  //         if (hitCellsNotSunk != []) {
+  //           const random = Math.floor(Math.random() * hitCellsNotSunk.length);
+  //           const nextCell = hitCellsNotSunk[random];
+  //           console.log("targetCells3", nearbyCells(targetShip))
+  //           setTargetCells(nearbyCells(nextCell));
+  //           setTargetShip(nextCell.ship);
+  //         }
+  //       }
+  //     }
+  //     const newTargetCells = [...targetCells]
+  //     newTargetCells.splice(random, 1);
+  //     setTargetCells([...newTargetCells]);
+  //   }
+  //   setAvailableCells(availableCells.filter((cell) => !cell.hasBeenHit));
+  // };
 
-  const adjacentCells = (ship) => {
-    const listOfCells = hitCellsNotSunk.filter((cell) => cell.ship === ship);
-    const xCoordinates = listOfCells.map((cell) => cell.xCoordinate);
-    const yCoordinates = listOfCells.map((cell) => cell.yCoordinate);
-    let upperCellXcoordinate;
-    let upperCellYcoordinate;
-    let lowerCellXcoordinate;
-    let lowerCellYcoordinate;
-    if (xCoordinates[0] === xCoordinates[1]) {
-      upperCellYcoordinate = Math.max(yCoordinates) + 1;
-      upperCellXcoordinate = xCoordinates[0];
-      lowerCellYcoordinate = Math.min(yCoordinates) - 1;
-      lowerCellXcoordinate = xCoordinates[0];
-    } else {
-      upperCellYcoordinate = yCoordinates[0];
-      upperCellXcoordinate = Math.max(xCoordinates) + 1;
-      lowerCellYcoordinate = yCoordinates[0];
-      lowerCellXcoordinate = Math.max(xCoordinates) - 1;
-    }
-    const upperCell = getCellByCoordinate(
-      upperCellXcoordinate,
-      upperCellYcoordinate
-    );
-    const lowerCell = getCellByCoordinate(
-      lowerCellXcoordinate,
-      lowerCellYcoordinate
-    );
-    return [upperCell, lowerCell];
-  };
-  // }
+  // const adjacentCells = (ship) => {
+  //   const listOfCells = hitCellsNotSunk.filter((cell) => cell.ship === ship);
+  //   const xCoordinates = listOfCells.map((cell) => cell.xCoordinate);
+  //   const yCoordinates = listOfCells.map((cell) => cell.yCoordinate);
+  //   let upperCellXcoordinate;
+  //   let upperCellYcoordinate;
+  //   let lowerCellXcoordinate;
+  //   let lowerCellYcoordinate;
+  //   if (xCoordinates[0] === xCoordinates[1]) {
+  //     upperCellYcoordinate = Math.max(yCoordinates) + 1;
+  //     upperCellXcoordinate = xCoordinates[0];
+  //     lowerCellYcoordinate = Math.min(yCoordinates) - 1;
+  //     lowerCellXcoordinate = xCoordinates[0];
+  //   } else {
+  //     upperCellYcoordinate = yCoordinates[0];
+  //     upperCellXcoordinate = Math.max(xCoordinates) + 1;
+  //     lowerCellYcoordinate = yCoordinates[0];
+  //     lowerCellXcoordinate = Math.max(xCoordinates) - 1;
+  //   }
+  //   const upperCell = getCellByCoordinate(
+  //     upperCellXcoordinate,
+  //     upperCellYcoordinate
+  //   );
+  //   const lowerCell = getCellByCoordinate(
+  //     lowerCellXcoordinate,
+  //     lowerCellYcoordinate
+  //   );
+  //   return [upperCell, lowerCell];
+  // };
+  
 
   // const handleComputerTurn =() => {
   //   const random = Math.floor(Math.random() * cellsGridPlayerOne.length);
@@ -210,7 +218,7 @@ const GameContainer = ({
 
   // const finishOffShip = (cell) => {
   //     let targetCell;
-  //     if(lastShotShipSecondHit.length === 0 || lastShotShipSecondHit.slice(-1).ship != cell.ship){
+  //     if(lastShotShipSecondHit.length === 0 || lastShotShipSecondHit.slice(-1).ship !== cell.ship){
   //         getNearbyCells(cell);
   //         const random = Math.floor(Math.random() * nearbyCells.length);
   //         targetCell = nearbyCells[random];
@@ -276,7 +284,7 @@ const GameContainer = ({
   //             }
   //         }
   //     }
-  // // }
+  // }
 
   // const getOppositeCell = () => {
   //     const x1 = lastShotShipFirstHit.slice(-1).xCoordinate;
@@ -318,46 +326,49 @@ const GameContainer = ({
   //     }
   // }
 
-  const getNearbyCells = (cell) => {
-    const xCoordinate = cell.xCoordinate;
-    const yCoordinate = cell.yCoordinate;
-    const upCell = getCellByCoordinate(xCoordinate, yCoordinate - 1);
-    const downCell = getCellByCoordinate(xCoordinate, yCoordinate + 1);
-    const leftCell = getCellByCoordinate(xCoordinate - 1, yCoordinate);
-    const rightCell = getCellByCoordinate(xCoordinate + 1, yCoordinate);
-    const nearbyCells = [upCell, downCell, leftCell, rightCell]; // need to test what happens if any of these are null
-    console.log(nearbyCells); // return array of undefined
-    const filteredNearbyCells = nearbyCells.filter((cell) => !cell.hasBeenHit);
-    setNearbyCells(filteredNearbyCells);
-  };
+  // const getNearbyCells = (cell) => {
+  //   const xCoordinate = cell.xCoordinate;
+  //   const yCoordinate = cell.yCoordinate;
+  //   const upCell = getCellByCoordinate(xCoordinate, yCoordinate - 1);
+  //   const downCell = getCellByCoordinate(xCoordinate, yCoordinate + 1);
+  //   const leftCell = getCellByCoordinate(xCoordinate - 1, yCoordinate);
+  //   const rightCell = getCellByCoordinate(xCoordinate + 1, yCoordinate);
+  //   const nearbyCells = [upCell, downCell, leftCell, rightCell]; // need to test what happens if any of these are null
+  //   console.log(nearbyCells); // return array of undefined
+  //   if(nearbyCells[0] !== null && nearbyCells[1] !== null && nearbyCells[2] !== null && nearbyCells[3] !== null){
+  //   const filteredNearbyCells = nearbyCells.filter((cell) => !cell.hasBeenHit);
+  //   setNearbyCells(filteredNearbyCells);
+  //   setTargetCells(filteredNearbyCells);
+  //   }
+  // };
 
-  const getCellByCoordinate = (xCoordinate, yCoordinate) => {
-    if (
-      xCoordinate >= 0 &&
-      xCoordinate <= 7 &&
-      yCoordinate >= 0 &&
-      yCoordinate <= 7
-    ) {
-      return cellsGridPlayerOne.find(
-        (cell) =>
-          cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate
-      );
-    } else return null;
-  };
+  // const getCellByCoordinate = (xCoordinate, yCoordinate) => {
+  //   if (
+  //     xCoordinate >= 0 &&
+  //     xCoordinate <= 7 &&
+  //     yCoordinate >= 0 &&
+  //     yCoordinate <= 7
+  //   ) {
+  //     return cellsGridPlayerOne.find(
+  //       (cell) =>
+  //         cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate
+  //     );
+  //   } else return null;
+  // };
 
-  const getAvailableCellByCoordinate = (xCoordinate, yCoordinate) => {
-    if (
-      xCoordinate >= 0 &&
-      xCoordinate <= 7 &&
-      yCoordinate >= 0 &&
-      yCoordinate <= 7
-    ) {
-      return availableCells.find(
-        (cell) =>
-          cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate
-      );
-    } else return null;
-  };
+  // const getAvailableCellByCoordinate = (xCoordinate, yCoordinate) => {
+  //   if (
+  //     xCoordinate >= 0 &&
+  //     xCoordinate <= 7 &&
+  //     yCoordinate >= 0 &&
+  //     yCoordinate <= 7
+  //   ) {
+  //     return availableCells.find(
+  //       (cell) =>
+  //         cell.xCoordinate === xCoordinate && cell.yCoordinate === yCoordinate
+  //     );
+  //   } else return null;
+  // };
 
   const game = useMemo(() => new Game(shipsPlayerOne), []);
 
@@ -420,28 +431,31 @@ const GameContainer = ({
     }
   };
 
+  // useEffect(() => {
+  //   getGame()
+  // },[cellsGridPlayerOne, cellsGridPlayerTwo, shipsPlayerOne, shipsPlayerTwo])
+
   return (
-    <>
-      {gameStarted ? (
+    <DndProvider backend={HTML5Backend}>
+      {gameStarted? (
         <div className="game_page">
           <CellGrid
             cells={cellsGridPlayerOne}
             handleTurn={handleTurn}
-            handleComputerTurn={handleComputerTurn}
+            // handleComputerTurn={handleComputerTurn}
           />
           <CellGrid
             cells={cellsGridPlayerTwo}
             handleTurn={handleTurn}
-            handleComputerTurn={handleComputerTurn}
+            // handleComputerTurn={handleComputerTurn}
           />
         </div>
       ) : (
         <>
-          <h2> SET UP YOUR SHIPS </h2>
-          <h4> Drag & Drop the ships on to the map </h4>
-
-          <div className="setupGrid">
-            <DndProvider backend={HTML5Backend}>
+          <h2>SET UP YOUR SHIPS</h2>
+          <h4>Drag & Drop the ships onto the map</h4>
+          {!playerOne ? (
+            <div className="setupGrid">
               <div className="playerone">
                 <GridComponent
                   setDisabled={setDisabled}
@@ -454,21 +468,21 @@ const GameContainer = ({
                   game={game}
                 />
               </div>
-
-              <div className={!gameStarted ? "playertwonone" : "playertwo"}>
-                <GridComponent
-                  setDisabled={setDisabled}
-                  setShips={setShipsPlayerTwo}
-                  grid={gridPlayerTwo}
-                  setGrid={setGridPlayerTwo}
-                  cells={cellsGridPlayerTwo}
-                  setCells={setCellsGridPlayerTwo}
-                  ships={shipsPlayerTwo}
-                  game={game}
-                />
-              </div>
-            </DndProvider>
-          </div>
+            </div>
+          ) : (
+            <div className="playertwo">
+              <GridComponent
+                setDisabled={setDisabled}
+                setShips={setShipsPlayerTwo}
+                grid={gridPlayerTwo}
+                setGrid={setGridPlayerTwo}
+                cells={cellsGridPlayerTwo}
+                setCells={setCellsGridPlayerTwo}
+                ships={shipsPlayerTwo}
+                game={game}
+              />
+            </div>
+          )}
           <button
             type="submit"
             disabled={disabled}
@@ -479,8 +493,7 @@ const GameContainer = ({
           </button>
         </>
       )}
-    </>
+    </DndProvider>
   );
-};
-
+ }
 export default GameContainer;

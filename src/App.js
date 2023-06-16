@@ -25,7 +25,6 @@ function App() {
     const fetchShips = async () => {
       const response = await fetch("http://localhost:8080/ships");
       const data = await response.json();
-      console.log(data);
       const dataPlayerOne = data.filter((ship) => ship.playerOne);
       const dataPlayerTwo = data.filter((ship) => !ship.playerOne);
       setShipsPlayerOne(dataPlayerOne);
@@ -43,7 +42,11 @@ function App() {
       }
     );
     // const data = await response.json();
-    const updatedGame = await fetch(`http://localhost:8080/games`);
+    const updatedGame = await fetch(`http://localhost:8080/games`,
+    {
+      method: "GET",
+      headers: {"Content-Type": "application/json"}
+    });
     const updatedData = await updatedGame.json();
     setGame(updatedData);
     let gridOddNumber;
@@ -54,13 +57,14 @@ function App() {
     updatedData.grids[0].id % 2 === 0
       ? (gridEvenNumber = updatedData.grids[0])
       : (gridEvenNumber = updatedData.grids[1]);
-    setGridPlayerOne(gridOddNumber);
-    setGridPlayerTwo(gridEvenNumber);
-    setCellsGridPlayerOne(gridOddNumber.cells);
-    setCellsGridPlayerTwo(gridEvenNumber.cells);
-    setSinglePlayer(updatedData.singlePlayer);
+  setGridPlayerOne(gridOddNumber);
+  setGridPlayerTwo(gridEvenNumber);
+  setCellsGridPlayerOne(gridOddNumber.cells);
+  setCellsGridPlayerTwo(gridEvenNumber.cells);
+  setSinglePlayer(updatedData.isSinglePlayer);
+  console.log(updatedData);
+  setGame(updatedData);   
   };
-
   const addGridToGame = async (grid) => {
     const response = await fetch(`http://localhost:8080/games`, {
       method: "PATCH",
@@ -71,6 +75,36 @@ function App() {
     setGame(data);
   };
 
+  const joinGame = async () =>{
+    const response = await fetch(`http://localhost:8080/games`,
+    {
+      method: "GET",
+      headers: {"Content-Type": "application/json"}
+    });
+    const data = await response.json();
+    setGame(data);
+    console.log(game)
+    console.log(data)
+    setGridPlayerTwo(data.grids[1])
+    setCellsGridPlayerTwo(data.grids[1].cells)
+    setPlayerTwo(data.grids[1])
+    setPlayerOne(true)
+  }
+  
+  const getGame = async () =>{
+    const response = await fetch(`http://localhost:8080/games`,
+    {
+      method: "GET",
+      headers: {"Content-Type": "application/json"}
+    });
+    const data = await response.json();
+    setGame(data);
+    setGridPlayerTwo(data.grids[1])
+    setGridPlayerOne(data.grids[0])
+    setCellsGridPlayerTwo(data.grids[1].cells)
+    setCellsGridPlayerOne(data.grids[0].cells)
+  }
+
   const startGame = async () => {
     const response = await fetch(`http://localhost:8080/games`, {
       method: "PATCH",
@@ -78,6 +112,7 @@ function App() {
     });
     const data = await response.json();
     setGame(data);
+    setPlayerOne(true)
     setPlayerOne(true)
   };
 
@@ -92,6 +127,7 @@ function App() {
 
   const handleClick = () => {
     resetGame();
+    setSinglePlayer(null)
   };
 
   const onConnected = () => {
@@ -105,12 +141,11 @@ function App() {
     let message = payloadData.body;
     if (typeof message === "number") {
       setNumberOfUsers(message);
-    if (numberOfUsers === 1){
-      setPlayerOne(game.grids[0])
-    }else{
-      console.log(game)
-      setPlayerTwo(game.grids[1])
-    }
+    // if (numberOfUsers === 1){
+    //   setPlayerOne(game.grids[0])
+    // }if(numberOfUsers === 2){
+    //   setPlayerTwo(game.grids[1])
+    // }
     }
     // else to handle the game logic
   };
@@ -130,8 +165,9 @@ function App() {
           postGame={postGame}
           numberOfUsers={numberOfUsers}
           singlePlayer={singlePlayer}
-          
+          joinGame={joinGame}
           game={game}
+          getGame={getGame}
         />
       ),
     },
@@ -156,6 +192,8 @@ function App() {
         startGame={startGame}
         setGame={setGame}
         playerOne={playerOne}
+        getGame={getGame}
+      
         />
       ),
     },

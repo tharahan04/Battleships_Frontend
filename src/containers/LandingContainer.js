@@ -3,7 +3,7 @@ import MultiplayerModal from "../modals/MultiplayerModal";
 import "../CSS/LandingContainer.css";
 import battleships from "../assets/battleships.jpeg";
 
-const LandingContainer = ({ multiplayerEnabled, postGame, numberOfUsers }) => {
+const LandingContainer = ({ multiplayerEnabled, postGame, numberOfUsers, game, joinGame, getGame }) => {
   const navigate = useNavigate();
   const handleClick = (event) => {
     if (event.target.value === "single player") {
@@ -20,6 +20,9 @@ const LandingContainer = ({ multiplayerEnabled, postGame, numberOfUsers }) => {
         multiplayerEnabled={multiplayerEnabled}
         postGame={postGame}
         numberOfUsers={numberOfUsers}
+        game={game}
+        getGame={getGame}
+        joinGame={joinGame}
       />
       </div>
       <img src={battleships} alt="battleships"/>
