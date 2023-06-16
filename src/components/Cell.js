@@ -1,10 +1,12 @@
 import "../CSS/Cell.css";
 import useSound from 'use-sound';
 import soundFile from '../sounds/bomb.mp3';
+import { useState } from "react";
 
 const Cell = ({ cell, handleTurn, handleComputerTurn }) => {
 
   const [play, {stop}] = useSound(soundFile);
+  const [played, setPlayed] = useState(false);
 
   const showShip = () => {
     if (cell.ship !== null) {
@@ -21,8 +23,11 @@ const Cell = ({ cell, handleTurn, handleComputerTurn }) => {
 
   const classNameStatus = () => {
     if (cell.hasBeenHit) {
-      if (cell.ship !== null) {
-        play();
+      if (cell.ship !== null ) {
+        if(!played){
+            play();
+            setPlayed(true);
+        }
         return "cell_successful_hit";
       } else {
         return "cell_hit";
@@ -40,7 +45,7 @@ const Cell = ({ cell, handleTurn, handleComputerTurn }) => {
 
   return (
     <>
-    <div className={classNameStatus()} onClick={handleClick} onPlay={play}>
+    <div className={classNameStatus()} onClick={handleClick}>
       <p className={hideShips()}>{showShip() ? cell.ship.id : null}</p>
     </div>
     </>
