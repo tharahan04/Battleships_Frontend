@@ -3,7 +3,7 @@
     height: 50px;
     box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 1);
     background-color: white;
-    color: white;
+    /* color: white; */
   }
 
 .cell_successful_hit {
@@ -11,7 +11,7 @@
     height: 50px;
     box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 1);
     background-color: red;
-    color: red;
+    /* color: red; */
 }
 
 .cell_hit {
@@ -19,9 +19,13 @@
     height: 50px;
     box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 1);
     background-color: purple;
-    color: purple;
+    /* color: purple; */
 }
 
 .hidden_ships{
-    background-color: aqua;
+    color: white;
+}
+
+.cell_successful_hit > .hidden_ships {
+    color: red 
 }

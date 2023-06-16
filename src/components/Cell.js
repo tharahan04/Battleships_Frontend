@@ -28,9 +28,8 @@ const Cell = ({ cell, handleTurn, handleComputerTurn }) => {
 
   const hideShips = () => {
     if(cell.id >= 64){
-      return "hidden_ships"
+      return "hidden_ships";
     }
-    return"Tharahan"
   }
 
 
