@@ -29,7 +29,8 @@ const MultiplayerModal = ({ multiplayerEnabled, postGame, numberOfUsers, singleP
 
   const handleClick = () => {
     // setMultiplayer(true)
-    postGame(true)
+    postGame(true);
+    // socketClient.send("/app/handleTurn", {}, JSON.stringify(true))
     navigate("/game");
   };
   const handleOptionClick = () => {

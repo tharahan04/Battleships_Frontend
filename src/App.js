@@ -141,11 +141,6 @@ function App() {
     let message = payloadData.body;
     if (typeof message === "number") {
       setNumberOfUsers(message);
-    // if (numberOfUsers === 1){
-    //   setPlayerOne(game.grids[0])
-    // }if(numberOfUsers === 2){
-    //   setPlayerTwo(game.grids[1])
-    // }
     }
     // else to handle the game logic
   };
