@@ -1,25 +1,25 @@
-import { React, useState } from 'react';
+import { React } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import "../CSS/DropZone.css";
 
 
-const DropZone = ({x, y, game, children, ships}) => {
+const DropZone = ({x, y, memory, children, ships}) => {
 
        
 
     const [{ isOver }, drop] = useDrop(
         () => ({
           accept: ItemTypes.SHIP,
-          canDrop: (item) => game.canDropShip(item.shipName, x, y, ships),
+          canDrop: (item) => memory.canDropShip(item.shipName, x, y, ships),
           drop: (item) => {
-            game.moveShip(item.shipName,x, y);
+            memory.moveShip(item.shipName,x, y);
           },
           collect: (monitor) => ({
             isOver: !!monitor.isOver(),
           }),
         }),
-        [game, x, y],
+        [memory, x, y],
       )
 
     return (

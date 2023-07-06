@@ -142,6 +142,7 @@ function App() {
         singlePlayer={singlePlayer}
         addGridToGame={addGridToGame}
         startGame={startGame}
+        game={game}
         setGame={setGame}
         />
       ),
